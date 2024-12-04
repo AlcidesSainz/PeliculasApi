@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen();
 //Configurando el cache que tiene un tiempo de expiration de 60 segundos, luego de ese tiempo todo lo almacenado en el cache se va a eliminar
 builder.Services.AddOutputCache(opciones =>
 {
-    opciones.DefaultExpirationTimeSpan = TimeSpan.FromSeconds(5);
+    opciones.DefaultExpirationTimeSpan = TimeSpan.FromSeconds(60);
 });
 
 //Configurando el permiso de origen para acceder a la API WEB
@@ -48,10 +48,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors();
+
 //Para Poder utilizar el cache en nuestra app
 app.UseOutputCache();
-
-app.UseCors();
 
 app.UseAuthorization();
 

@@ -63,7 +63,7 @@ namespace PeliculasApi.Controllers
             return CreatedAtRoute("ObtenerGeneroPorId", new { id = genero.Id }, genero);
         }
 
-        [HttpPut]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> Put(int id, [FromBody] GeneroRequestDTO generoRequestDTO)
         {
             var generoExiste = await dbContext.Generos.AnyAsync(g => g.Id == id);

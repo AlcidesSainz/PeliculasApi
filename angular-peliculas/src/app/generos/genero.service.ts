@@ -15,8 +15,9 @@ export class GeneroService {
   private http = inject(HttpClient);
   private urlBase = environment.apiUrl + '/generos';
 
-  public obtenerPaginado(paginacion: PaginacionDTO): Observable<HttpResponse<GeneroDTO[]>>
-  {
+  public obtenerPaginado(
+    paginacion: PaginacionDTO
+  ): Observable<HttpResponse<GeneroDTO[]>> {
     let queryParams = construirQueryParams(paginacion);
     return this.http.get<GeneroDTO[]>(this.urlBase, {
       params: queryParams,
@@ -26,5 +27,13 @@ export class GeneroService {
 
   public crear(genero: GeneroCreacionDTO) {
     return this.http.post(this.urlBase, genero);
+  }
+
+  public obtenerPorId(id: number): Observable<GeneroDTO> {
+    return this.http.get<GeneroDTO>(`${this.urlBase}/${id}`);
+  }
+
+  public actualizar(id: number, genero: GeneroCreacionDTO) {
+    return this.http.put(`${this.urlBase}/${id}`, genero);
   }
 }

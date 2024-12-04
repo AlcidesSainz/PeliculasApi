@@ -29,7 +29,7 @@ namespace PeliculasApi.Controllers
         }
 
         [HttpGet]
-        //[OutputCache(Tags = [cacheTag])]
+        [OutputCache(Tags = [cacheTag])]
         public async Task<List<GeneroResponseDTO>> Get([FromQuery] PaginacionResponseDTO paginacionResponseDTO)
         {
 
@@ -41,12 +41,17 @@ namespace PeliculasApi.Controllers
                 .ProjectTo<GeneroResponseDTO>(mapper.ConfigurationProvider).ToListAsync();
         }
 
-        //[HttpGet("{id:int}", Name = "ObtenerGeneroPorId")]
-        //[OutputCache(Tags = [cacheTag])]
-        //public async Task<ActionResult<GeneroResponseDTO>> Get(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        [HttpGet("{id:int}", Name = "ObtenerGeneroPorId")]
+        [OutputCache(Tags = [cacheTag])]
+        public async Task<ActionResult<GeneroResponseDTO>> Get(int id)
+        {
+            var genero = await dbContext.Generos.ProjectTo<GeneroResponseDTO>(mapper.ConfigurationProvider).FirstOrDefaultAsync(g => g.Id == id);
+            if (genero == null)
+            {
+                return NotFound();
+            }
+            return (genero);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] GeneroRequestDTO generoRequestDTO)
@@ -54,10 +59,26 @@ namespace PeliculasApi.Controllers
             var genero = mapper.Map<Genero>(generoRequestDTO);
             dbContext.Add(genero);
             await dbContext.SaveChangesAsync();
+            await outputCacheStore.EvictByTagAsync(cacheTag, default);
             return CreatedAtRoute("ObtenerGeneroPorId", new { id = genero.Id }, genero);
         }
+
         [HttpPut]
-        public void Put() { }
+        public async Task<IActionResult> Put(int id, [FromBody] GeneroRequestDTO generoRequestDTO)
+        {
+            var generoExiste = await dbContext.Generos.AnyAsync(g => g.Id == id);
+            if (generoExiste == false)
+            {
+                return NotFound();
+            }
+            var genero = mapper.Map<Genero>(generoRequestDTO);
+            genero.Id = id;
+
+            dbContext.Update(genero);
+            await dbContext.SaveChangesAsync();
+            await outputCacheStore.EvictByTagAsync(cacheTag, default);
+            return NoContent();
+        }
         [HttpDelete]
         public void Delete() { }
     }

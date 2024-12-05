@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using PeliculasApi.DTOs.Request;
 using PeliculasApi.Entidades;
+using PeliculasApi.Servicios;
 
 namespace PeliculasApi.Controllers
 {
@@ -13,13 +14,16 @@ namespace PeliculasApi.Controllers
         private readonly ApplicationDbContext applicationDbContext;
         private readonly IMapper mapper;
         private readonly IOutputCacheStore outputCacheStore;
+        private readonly IAlmacenadorArchivos almacenadorArchivos;
         private const string cacheTag = "actores";
+        private readonly string contenedor = "actores";
 
-        public ActoresController(ApplicationDbContext applicationDbContext, IMapper mapper, IOutputCacheStore outputCacheStore)
+        public ActoresController(ApplicationDbContext applicationDbContext, IMapper mapper, IOutputCacheStore outputCacheStore, IAlmacenadorArchivos almacenadorArchivos)
         {
             this.applicationDbContext = applicationDbContext;
             this.mapper = mapper;
             this.outputCacheStore = outputCacheStore;
+            this.almacenadorArchivos = almacenadorArchivos;
         }
 
 
@@ -34,6 +38,13 @@ namespace PeliculasApi.Controllers
         public async Task<IActionResult> Post([FromForm] ActoresRequestDTO actoresRequestDTO)
         {
             var actor = mapper.Map<Actor>(actoresRequestDTO);
+
+            if(actoresRequestDTO.Foto is not null)
+            {
+                var url = await almacenadorArchivos.Almacenar(contenedor, actoresRequestDTO.Foto);
+                actor.Foto = url;
+            }
+
             applicationDbContext.Add(actor);
             await applicationDbContext.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync(cacheTag, default);

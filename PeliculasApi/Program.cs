@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PeliculasApi;
+using PeliculasApi.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,8 +29,8 @@ builder.Services.AddCors(opciones =>
     });
 });
 
-
-
+builder.Services.AddTransient<IAlmacenadorArchivos, AlmacenadorArchivoLocal>();
+builder.Services.AddHttpContextAccessor();
 //Configurando el Auto Mapper
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -40,21 +41,21 @@ opciones.UseSqlServer("name=DefaultConnection"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 
 app.UseHttpsRedirection();
 
-app.UseCors();
+app.UseStaticFiles();
 
-//Para Poder utilizar el cache en nuestra app
-app.UseOutputCache();
+app.UseCors();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+//Para Poder utilizar el cache en nuestra app
+app.UseOutputCache();
 
 app.Run();

@@ -19,7 +19,7 @@ namespace PeliculasApi.Utilities
         }
         private void ConfigureMapperActores()
         {
-            CreateMap<ActoresResponseDTO, Actor>().ForMember(x => x.Foto, opciones => opciones.Ignore());
+            CreateMap<ActoresRequestDTO, Actor>().ForMember(x => x.Foto, opciones => opciones.Ignore());
         }
     }
 

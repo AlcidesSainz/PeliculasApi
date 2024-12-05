@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PeliculasApi;
 
@@ -11,9 +12,11 @@ using PeliculasApi;
 namespace PeliculasApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241205154509_ActoresEntity")]
+    partial class ActoresEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +47,7 @@ namespace PeliculasApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Actores", (string)null);
+                    b.ToTable("Actores");
                 });
 
             modelBuilder.Entity("PeliculasApi.Entidades.Genero", b =>
@@ -62,7 +65,7 @@ namespace PeliculasApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Generos", (string)null);
+                    b.ToTable("Generos");
                 });
 #pragma warning restore 612, 618
         }

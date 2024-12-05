@@ -5,16 +5,21 @@ using PeliculasApi.Entidades;
 
 namespace PeliculasApi.Utilities
 {
-    public class AutoMapperProfiles:Profile
+    public class AutoMapperProfiles : Profile
     {
         public AutoMapperProfiles()
         {
             ConfigureMapperGeneros();
+            ConfigureMapperActores();
         }
         private void ConfigureMapperGeneros()
         {
             CreateMap<GeneroRequestDTO, Genero>();
             CreateMap<GeneroResponseDTO, Genero>().ReverseMap();
+        }
+        private void ConfigureMapperActores()
+        {
+            CreateMap<ActoresResponseDTO, Actor>().ForMember(x => x.Foto, opciones => opciones.Ignore());
         }
     }
 

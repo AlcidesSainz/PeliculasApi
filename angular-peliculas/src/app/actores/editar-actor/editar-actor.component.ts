@@ -1,26 +1,47 @@
-import { Component, Input, numberAttribute } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  numberAttribute,
+  OnInit,
+} from '@angular/core';
 import { transform } from 'typescript';
 import { ActorCreacionDTO, ActorDTO } from '../actores';
-import { FormularioActoresComponent } from "../formulario-actores/formulario-actores.component";
+import { FormularioActoresComponent } from '../formulario-actores/formulario-actores.component';
+import { ActoresService } from '../actores.service';
+import { Router } from '@angular/router';
+import { extraerErrores } from '../../compartidos/funciones/extraerErrores';
+import { MostrarErroresComponent } from '../../compartidos/componentes/mostrar-errores/mostrar-errores.component';
 
 @Component({
   selector: 'app-editar-actor',
   standalone: true,
-  imports: [FormularioActoresComponent],
+  imports: [FormularioActoresComponent, MostrarErroresComponent],
   templateUrl: './editar-actor.component.html',
   styleUrl: './editar-actor.component.css',
 })
-export class EditarActorComponent {
+export class EditarActorComponent implements OnInit {
+  ngOnInit(): void {
+    this.actorService.obtenerPorId(this.id).subscribe((actor) => {
+      this.actor = actor;
+    });
+  }
   @Input({ transform: numberAttribute })
   id!: number;
+  actor?: ActorDTO;
+  actorService = inject(ActoresService);
+  errores: string[] = [];
+  router = inject(Router);
 
-  actor: ActorDTO = {
-    id: 1,
-    nombre: 'TOm Holland',
-    fechaNacimiento: new Date('1991-01-25'),
-    foto: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Tom_Holland_at_KCA_2022.jpg/330px-Tom_Holland_at_KCA_2022.jpg',
-  };
   guardarCambios(actor: ActorCreacionDTO) {
-    console.log('Editando el actor', actor);
+    this.actorService.actualizar(this.id, actor).subscribe({
+      next: () => {
+        this.router.navigate(['/actores']);
+      },
+      error: (err) => {
+        const errores = extraerErrores(err);
+        this.errores = errores;
+      },
+    });
   }
 }

@@ -20,6 +20,7 @@ namespace PeliculasApi.Utilities
         private void ConfigureMapperActores()
         {
             CreateMap<ActoresRequestDTO, Actor>().ForMember(x => x.Foto, opciones => opciones.Ignore());
+            CreateMap<ActoresResponseDTO, Actor>().ReverseMap();
         }
     }
 

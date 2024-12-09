@@ -13,40 +13,24 @@ import { CargandoComponent } from '../../compartidos/componentes/cargando/cargan
 import { MostrarErroresComponent } from '../../compartidos/componentes/mostrar-errores/mostrar-errores.component';
 import { Router } from '@angular/router';
 import { extraerErrores } from '../../compartidos/funciones/extraerErrores';
+import { SERVICIO_CRUD_TOKEN } from '../../compartidos/proveedores/proveedores';
+import { EditarEntidadComponent } from "../../compartidos/componentes/editar-entidad/editar-entidad.component";
 
 @Component({
   selector: 'app-editar-genero',
   standalone: true,
   imports: [
-    FormularioGeneroComponent,
-    CargandoComponent,
-    MostrarErroresComponent,
-  ],
+    EditarEntidadComponent
+],
   templateUrl: './editar-genero.component.html',
   styleUrl: './editar-genero.component.css',
+  providers: [{
+    provide:SERVICIO_CRUD_TOKEN,useClass:GeneroService
+  }]
 })
-export class EditarGeneroComponent implements OnInit {
-  ngOnInit(): void {
-    this.generoService.obtenerPorId(this.id).subscribe((genero) => {
-      this.genero = genero;
-    });
-  }
+export class EditarGeneroComponent {
   @Input({ transform: numberAttribute })
   id!: number;
-  genero?: GeneroDTO;
-  generoService = inject(GeneroService);
-  errores: string[] = [];
-  router = inject(Router);
+  formularioGenero = FormularioGeneroComponent
 
-  guardarCambios(genero: GeneroCreacionDTO) {
-    this.generoService.actualizar(this.id, genero).subscribe({
-      next: () => {
-        this.router.navigate(['/generos']);
-      },
-      error: (err) => {
-        const errores = extraerErrores(err);
-        this.errores = errores;
-      },
-    });
-  }
 }

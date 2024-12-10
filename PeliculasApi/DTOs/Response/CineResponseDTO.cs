@@ -8,7 +8,7 @@ namespace PeliculasApi.DTOs.Response
     {
         public int Id { get; set; }
         public required string Nombre { get; set; }
-        public double Latidad { get; set; }
+        public double Latitud { get; set; }
         public double Longitud { get; set; }
     }
 }

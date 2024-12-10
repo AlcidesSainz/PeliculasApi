@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.OutputCaching;
 using PeliculasApi.DTOs.Request;
 using PeliculasApi.DTOs.Response;
 using PeliculasApi.Entidades;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace PeliculasApi.Controllers
 {

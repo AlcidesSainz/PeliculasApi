@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +6,6 @@ using PeliculasApi.DTOs.Request;
 using PeliculasApi.DTOs.Response;
 using PeliculasApi.Entidades;
 using PeliculasApi.Servicios;
-using PeliculasApi.Utilities;
 
 namespace PeliculasApi.Controllers
 {

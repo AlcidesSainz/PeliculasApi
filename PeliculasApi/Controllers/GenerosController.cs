@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
-using Microsoft.EntityFrameworkCore;
 using PeliculasApi.DTOs.Request;
 using PeliculasApi.DTOs.Response;
 using PeliculasApi.Entidades;
-using PeliculasApi.Utilities;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace PeliculasApi.Controllers

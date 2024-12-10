@@ -27,10 +27,10 @@ namespace PeliculasApi.Utilities
         private void ConfigureMapperCines(GeometryFactory geometryFactory)
         {
             CreateMap<Cines, CineResponseDTO>()
-                .ForMember(x => x.Latidad, cine => cine.MapFrom(p => p.Ubicacion.Y))
+                .ForMember(x => x.Latitud, cine => cine.MapFrom(p => p.Ubicacion.Y))
                 .ForMember(x => x.Longitud, cine => cine.MapFrom(p => p.Ubicacion.X));
             CreateMap<CineRequestDTO, Cines>()
-                .ForMember(x => x.Ubicacion, cineResponseDTO => cineResponseDTO.MapFrom(p => geometryFactory.CreatePoint(new Coordinate(p.Longitud, p.Latidad))));
+                .ForMember(x => x.Ubicacion, cineResponseDTO => cineResponseDTO.MapFrom(p => geometryFactory.CreatePoint(new Coordinate(p.Longitud, p.Latitud))));
         }
     }
 

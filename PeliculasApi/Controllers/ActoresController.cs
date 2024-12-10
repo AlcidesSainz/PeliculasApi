@@ -13,7 +13,7 @@ namespace PeliculasApi.Controllers
 {
     [Route("api/actores")]
     [ApiController]
-    public class ActoresController : ControllerBase
+    public class ActoresController : CustomBaseController
     {
         private readonly ApplicationDbContext applicationDbContext;
         private readonly IMapper mapper;
@@ -23,6 +23,7 @@ namespace PeliculasApi.Controllers
         private readonly string contenedor = "actores";
 
         public ActoresController(ApplicationDbContext applicationDbContext, IMapper mapper, IOutputCacheStore outputCacheStore, IAlmacenadorArchivos almacenadorArchivos)
+            : base(applicationDbContext, mapper, outputCacheStore, cacheTag)
         {
             this.applicationDbContext = applicationDbContext;
             this.mapper = mapper;
@@ -33,21 +34,14 @@ namespace PeliculasApi.Controllers
         [OutputCache(Tags = [cacheTag])]
         public async Task<List<ActoresResponseDTO>> Get([FromQuery] PaginacionResponseDTO paginacionResponseDTO)
         {
-            var queryable = applicationDbContext.Actores;
-            await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
-            return await queryable.OrderBy(x => x.Nombre).Paginar(paginacionResponseDTO).ProjectTo<ActoresResponseDTO>(mapper.ConfigurationProvider).ToListAsync();
+            return await Get<Actor, ActoresResponseDTO>(paginacionResponseDTO, ordenarPor: a => a.Nombre);
         }
 
         [HttpGet("{id:int}", Name = "ObtenerActorPorId")]
         [OutputCache(Tags = [cacheTag])]
         public async Task<ActionResult<ActoresResponseDTO>> Get(int id)
         {
-            var actor = await applicationDbContext.Actores.ProjectTo<ActoresResponseDTO>(mapper.ConfigurationProvider).FirstOrDefaultAsync(a => a.Id == id);
-            if (actor == null)
-            {
-                return NotFound();
-            }
-            return (actor);
+            return await Get<Actor, ActoresResponseDTO>(id);
         }
 
         //FromForm es para que se puedan enviar archivos en el formulario
@@ -77,8 +71,8 @@ namespace PeliculasApi.Controllers
             {
                 return NotFound();
             }
-            actor = mapper.Map(actoresRequestDTO,actor);
-            if(actoresRequestDTO.Foto is not null)
+            actor = mapper.Map(actoresRequestDTO, actor);
+            if (actoresRequestDTO.Foto is not null)
             {
                 actor.Foto = await almacenadorArchivos.Editar(actor.Foto, contenedor, actoresRequestDTO.Foto);
             }
@@ -89,13 +83,7 @@ namespace PeliculasApi.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var registroBorrado = await applicationDbContext.Actores.Where(a=>a.Id == id).ExecuteDeleteAsync();
-            if (registroBorrado == 0)
-            {
-                return NotFound();
-            }
-            await outputCacheStore.EvictByTagAsync(cacheTag, default);
-            return NoContent() ;
+            return await Delete<Actor>(id);
         }
     }
 }

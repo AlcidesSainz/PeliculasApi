@@ -1,6 +1,10 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite;
+using NetTopologySuite.Geometries;
 using PeliculasApi;
 using PeliculasApi.Servicios;
+using PeliculasApi.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +14,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//COnfiguracion para poder utilizar Geometry Factory para la ubicacion 
+builder.Services.AddSingleton<GeometryFactory>(NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326));
 
 //Configurando el cache que tiene un tiempo de expiration de 60 segundos, luego de ese tiempo todo lo almacenado en el cache se va a eliminar
 builder.Services.AddOutputCache(opciones =>
@@ -31,18 +38,22 @@ builder.Services.AddCors(opciones =>
 
 builder.Services.AddTransient<IAlmacenadorArchivos, AlmacenadorArchivoLocal>();
 builder.Services.AddHttpContextAccessor();
-//Configurando el Auto Mapper
-builder.Services.AddAutoMapper(typeof(Program));
+//Configurando el Auto Mapper con Geometry Factory
+builder.Services.AddSingleton(proveedor => new MapperConfiguration(configuracion =>
+{
+    var geometryFactory = proveedor.GetRequiredService<GeometryFactory>();
+    configuracion.AddProfile(new AutoMapperProfiles(geometryFactory));
+}).CreateMapper());
 
 //Configurando la conexion a la base de datos SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(opciones =>
-opciones.UseSqlServer("name=DefaultConnection"));
+opciones.UseSqlServer("name=DefaultConnection", sqlServer => sqlServer.UseNetTopologySuite()));
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 
 app.UseHttpsRedirection();

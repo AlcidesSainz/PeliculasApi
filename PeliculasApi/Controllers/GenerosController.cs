@@ -13,7 +13,7 @@ namespace PeliculasApi.Controllers
 {
     [Route("api/generos")]
     [ApiController]
-    public class GenerosController : ControllerBase
+    public class GenerosController : CustomBaseController
     {
 
         private readonly IOutputCacheStore outputCacheStore;
@@ -21,7 +21,7 @@ namespace PeliculasApi.Controllers
         private readonly IMapper mapper;
         private const string cacheTag = "generos";
 
-        public GenerosController(IOutputCacheStore outputCacheStore, ApplicationDbContext dbContext, IMapper mapper)
+        public GenerosController(IOutputCacheStore outputCacheStore, ApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper, outputCacheStore, cacheTag)
         {
             this.outputCacheStore = outputCacheStore;
             this.dbContext = dbContext;
@@ -32,65 +32,31 @@ namespace PeliculasApi.Controllers
         [OutputCache(Tags = [cacheTag])]
         public async Task<List<GeneroResponseDTO>> Get([FromQuery] PaginacionResponseDTO paginacionResponseDTO)
         {
-
-            var queryable = dbContext.Generos;
-            await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
-            return await queryable
-                .OrderBy(g => g.Nombre)
-                .Paginar(paginacionResponseDTO)
-                .ProjectTo<GeneroResponseDTO>(mapper.ConfigurationProvider).ToListAsync();
+            return await Get<Genero, GeneroResponseDTO>(paginacionResponseDTO, ordenarPor: g => g.Nombre);
         }
 
         [HttpGet("{id:int}", Name = "ObtenerGeneroPorId")]
         [OutputCache(Tags = [cacheTag])]
         public async Task<ActionResult<GeneroResponseDTO>> Get(int id)
         {
-            var genero = await dbContext.Generos.ProjectTo<GeneroResponseDTO>(mapper.ConfigurationProvider).FirstOrDefaultAsync(g => g.Id == id);
-            if (genero == null)
-            {
-                return NotFound();
-            }
-            return (genero);
+            return await Get<Genero, GeneroResponseDTO>(id);
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] GeneroRequestDTO generoRequestDTO)
         {
-            var genero = mapper.Map<Genero>(generoRequestDTO);
-            dbContext.Add(genero);
-            await dbContext.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync(cacheTag, default);
-            return CreatedAtRoute("ObtenerGeneroPorId", new { id = genero.Id }, genero);
+            return await Post<GeneroRequestDTO, Genero, GeneroResponseDTO>(generoRequestDTO, "ObtenerGeneroPorId");
         }
 
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Put(int id, [FromBody] GeneroRequestDTO generoRequestDTO)
         {
-            var generoExiste = await dbContext.Generos.AnyAsync(g => g.Id == id);
-            if (generoExiste == false)
-            {
-                return NotFound();
-            }
-            var genero = mapper.Map<Genero>(generoRequestDTO);
-            genero.Id = id;
-
-            dbContext.Update(genero);
-            await dbContext.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync(cacheTag, default);
-            return NoContent();
+            return await Put<GeneroRequestDTO, Genero>(id, generoRequestDTO);
         }
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var registrosBorrados = await dbContext.Generos.Where(g => g.Id == id).ExecuteDeleteAsync();
-
-            if(registrosBorrados == 0)
-            {
-                return NotFound();
-            }
-
-            await outputCacheStore.EvictByTagAsync(cacheTag, default);
-            return NoContent();
+            return await Delete<Genero>(id);
         }
     }
 }

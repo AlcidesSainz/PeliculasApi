@@ -55,7 +55,7 @@ export class FormularioPeliculasComponent implements OnInit {
   @Input({ required: true })
   cinesSeleccionados!: SelectorMultipleDTO[];
   @Input({ required: true })
-  cinesNosSeleccionados!: SelectorMultipleDTO[];
+  cinesNoSeleccionados!: SelectorMultipleDTO[];
   @Input({ required: true })
   actoresSeleccionados!: ActoreAutoCompleteDTO[];
   @Input()

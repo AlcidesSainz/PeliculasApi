@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { ActorCreacionDTO, ActorDTO } from './actores';
+import { ActorCreacionDTO, ActorDTO, ActoreAutoCompleteDTO } from './actores';
 import { PaginacionDTO } from '../compartidos/modelos/PaginacionDTO';
 import { Observable } from 'rxjs';
 import { construirQueryParams } from '../compartidos/funciones/construirQueryParams';
@@ -51,6 +51,11 @@ export class ActoresService
   public obtenerPorId(id: number): Observable<ActorDTO> {
     return this.http.get<ActorDTO>(`${this.urlBase}/${id}`);
   }
+
+  public obtenerPorNombre(nombre: string): Observable<ActoreAutoCompleteDTO[]> {
+    return this.http.get<ActoreAutoCompleteDTO[]>(`${this.urlBase}/${nombre}`);
+  }
+
   public actualizar(id: number, actor: ActorCreacionDTO) {
     const formData = this.construirFormData(actor);
     return this.http.put(`${this.urlBase}/${id}`, formData);

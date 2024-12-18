@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
@@ -14,6 +14,7 @@ import {
   DragDropModule,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
+import { ActoresService } from '../actores.service';
 
 @Component({
   selector: 'app-autocomplete-actores',
@@ -31,54 +32,24 @@ import {
   templateUrl: './autocomplete-actores.component.html',
   styleUrl: './autocomplete-actores.component.css',
 })
-export class AutocompleteActoresComponent {
+export class AutocompleteActoresComponent implements OnInit {
+  ngOnInit(): void {
+    this.control.valueChanges.subscribe(
+      valor=>{
+        if (typeof valor === 'string' && valor) {
+          this.actorService.obtenerPorNombre(valor).subscribe((actores) => {
+            this.actores = actores
+          })
+        } 
+      }
+    )
+  }
   control = new FormControl();
 
-  actores: ActoreAutoCompleteDTO[] = [
-    {
-      id: 1,
-      nombre: 'Leonardo DiCaprio',
-      personajes: '',
-      foto: 'https://media.themoviedb.org/t/p/w300_and_h450_bestv2/wo2hJpn04vbtmh0B9utCFdsQhxM.jpg',
-    },
-    {
-      id: 2,
-      nombre: 'Tobey Maguire',
-      personajes: '',
-      foto: 'https://media.themoviedb.org/t/p/w300_and_h450_bestv2/ncF4HivY2W6SQW5dEP3N3I4mfT0.jpg',
-    },
-    {
-      id: 3,
-      nombre: 'Gary Oldman',
-      personajes: '',
-      foto: 'https://media.themoviedb.org/t/p/w300_and_h450_bestv2/2v9FVVBUrrkW2m3QOcYkuhq9A6o.jpg',
-    },
-    {
-      id: 4,
-      nombre: 'Pedro Pascal',
-      personajes: '',
-      foto: 'https://media.themoviedb.org/t/p/w300_and_h450_bestv2/9VYK7oxcqhjd5LAH6ZFJ3XzOlID.jpg',
-    },
-    {
-      id: 5,
-      nombre: 'Ana de Armas',
-      personajes: '',
-      foto: 'https://media.themoviedb.org/t/p/w300_and_h450_bestv2/3vxvsmYLTf4jnr163SUlBIw51ee.jpg',
-    },
-    {
-      id: 6,
-      nombre: 'Robert Pattinson',
-      personajes: '',
-      foto: 'https://media.themoviedb.org/t/p/w300_and_h450_bestv2/8A4PS5iG7GWEAVFftyqMZKl3qcr.jpg',
-    },
-    {
-      id: 7,
-      nombre: 'Margaret Qualley',
-      personajes: '',
-      foto: 'https://media.themoviedb.org/t/p/w300_and_h450_bestv2/jStNyMj3acpLuH48awLVLqqlyaV.jpg',
-    },
-  ];
+  actores: ActoreAutoCompleteDTO[] = [];
 
+  actorService = inject(ActoresService)
+  
   @Input({required:true})
   actoresSeleccionados: ActoreAutoCompleteDTO[] = [];
 

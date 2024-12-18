@@ -13,7 +13,28 @@ namespace PeliculasApi.Utilities
             ConfigureMapperGeneros();
             ConfigureMapperActores();
             ConfigureMapperCines(geometryFactory);
+            ConfigurarMappeoPeliculas();
         }
+
+        private void ConfigurarMappeoPeliculas()
+        {
+            CreateMap<PeliculaRequestDTO, Pelicula>()
+                .ForMember(x => x.Poster, opciones => opciones.Ignore())
+
+                .ForMember(x => x.PeliculaGenero, dto =>
+                    dto.MapFrom(p => p.GenerosIds!.Select(id => new PeliculaGenero { GeneroId = id })))
+
+                .ForMember(x => x.PeliculaCine, dto
+                    => dto.MapFrom(p => p.CinesIds!.Select(id => new PeliculaCine { CineId = id })))
+
+                .ForMember(p => p.PeliculaActor, dto =>
+                dto.MapFrom(p => p.Actores!.Select(actor => new PeliculaActor { ActorId = actor.Id, Personaje = actor.Personaje })));
+
+            CreateMap<Pelicula, PeliculaResponseDTO>();
+            CreateMap<PeliculaRequestDTO, PeliculaResponseDTO>();
+        }
+            
+
         private void ConfigureMapperGeneros()
         {
             CreateMap<GeneroRequestDTO, Genero>();
@@ -23,6 +44,8 @@ namespace PeliculasApi.Utilities
         {
             CreateMap<ActoresRequestDTO, Actor>().ForMember(x => x.Foto, opciones => opciones.Ignore());
             CreateMap<ActoresResponseDTO, Actor>().ReverseMap();
+
+            CreateMap<Actor, PeliculaActorResponseDTO>();
         }
         private void ConfigureMapperCines(GeometryFactory geometryFactory)
         {

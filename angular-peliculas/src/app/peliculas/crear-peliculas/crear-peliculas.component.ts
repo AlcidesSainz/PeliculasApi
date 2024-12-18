@@ -1,37 +1,55 @@
-import { Component } from '@angular/core';
+import { Component, inject, model } from '@angular/core';
 import { PeliculaCreacionDTO } from '../peliculas';
 import { FormularioPeliculasComponent } from '../formulario-peliculas/formulario-peliculas.component';
 import { SelectorMultipleDTO } from '../../compartidos/componentes/selector-multiple/SelectorMultipleModelo';
 import { ActoreAutoCompleteDTO } from '../../actores/actores';
+import { PeliculasService } from '../peliculas.service';
+import { SelectorMultipleComponent } from '../../compartidos/componentes/selector-multiple/selector-multiple.component';
+import { Router } from '@angular/router';
+import { extraerErrores } from '../../compartidos/funciones/extraerErrores';
+import { MostrarErroresComponent } from "../../compartidos/componentes/mostrar-errores/mostrar-errores.component";
+import { CargandoComponent } from "../../compartidos/componentes/cargando/cargando.component";
 
 @Component({
   selector: 'app-crear-peliculas',
   standalone: true,
-  imports: [FormularioPeliculasComponent],
+  imports: [FormularioPeliculasComponent, MostrarErroresComponent, CargandoComponent],
   templateUrl: './crear-peliculas.component.html',
   styleUrl: './crear-peliculas.component.css',
 })
 export class CrearPeliculasComponent {
   generosSeleccionados: SelectorMultipleDTO[] = [];
-
-  generosNoSeleccionados: SelectorMultipleDTO[] = [
-    { llave: 1, valor: 'Drama' },
-    { llave: 2, valor: 'Accion' },
-    { llave: 3, valor: 'Comedia' },
-    { llave: 4, valor: 'Terror' },
-    { llave: 5, valor: 'Fantasia' },
-    { llave: 6, valor: 'Thriller' },
-  ];
+  generosNoSeleccionados: SelectorMultipleDTO[] = [];
   cinesSeleccionados: SelectorMultipleDTO[] = [];
-
-  cinesNoSeleccionados: SelectorMultipleDTO[] = [
-    { llave: 1, valor: 'Cinemax' },
-    { llave: 2, valor: 'Multicines' },
-    { llave: 3, valor: 'Cinemark' },
-    { llave: 4, valor: 'Supercines' },
-  ];
+  cinesNoSeleccionados: SelectorMultipleDTO[] = [];
   actoresSeleccionados: ActoreAutoCompleteDTO[] = [];
+
+  peliculaService = inject(PeliculasService);
+  router = inject(Router);
+
+  errores: string[] = [];
+  constructor() {
+    this.peliculaService.crearGet().subscribe((modelo) => {
+      console.log('Modelo recibido:', modelo);
+      this.generosNoSeleccionados = modelo.generos.map((genero) => {
+        return <SelectorMultipleDTO>{ llave: genero.id, valor: genero.nombre };
+      });
+
+      this.cinesNoSeleccionados = modelo.cine.map(cine => {
+        return <SelectorMultipleDTO>{llave: cine.id,valor: cine.nombre};
+      });
+    });
+  }
   guardarcambios(pelicula: PeliculaCreacionDTO) {
-    console.log('Creando pelicula: ', pelicula);
+    this.peliculaService.crear(pelicula).subscribe({
+      next: (pelicula) => {
+        console.log(pelicula);
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        const errores = extraerErrores(err);
+        this.errores = errores;
+      },
+    });
   }
 }

@@ -45,7 +45,7 @@ export class EditarPeliculaComponent {
     {
       id: 1,
       nombre: 'Leonardo DiCaprio',
-      personajes: 'Jay Gatsby',
+      personaje: 'Jay Gatsby',
       foto: 'https://media.themoviedb.org/t/p/w300_and_h450_bestv2/wo2hJpn04vbtmh0B9utCFdsQhxM.jpg',
     },
   ];

@@ -8,7 +8,7 @@ namespace PeliculasApi.DTOs.Request
 
         [Required]
         [StringLength(150)]
-        public string Nombre { get; set; }
+        public required string Nombre { get; set; }
 
         public DateTime FechaNacimiento { get; set; }
 

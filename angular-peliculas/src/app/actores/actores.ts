@@ -15,6 +15,6 @@ export interface ActorCreacionDTO {
 export interface ActoreAutoCompleteDTO {
   id: number;
   nombre: string;
-  personajes: string;
+  personaje: string;
   foto: string;
 }

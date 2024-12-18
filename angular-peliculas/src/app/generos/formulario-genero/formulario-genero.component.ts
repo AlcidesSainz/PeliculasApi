@@ -26,7 +26,7 @@ export class FormularioGeneroComponent implements OnInit {
       this.form.patchValue(this.modelo);
     }
   }
-
+  
   @Input()
   modelo?: GeneroDTO;
 

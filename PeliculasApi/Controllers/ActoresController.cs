@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,13 @@ namespace PeliculasApi.Controllers
         public async Task<ActionResult<ActoresResponseDTO>> Get(int id)
         {
             return await Get<Actor, ActoresResponseDTO>(id);
+        }
+
+        [HttpGet("{nombre}")]
+        public async Task<ActionResult<List<PeliculaActorResponseDTO>>> Get(string nombre)
+        {
+            return await applicationDbContext.Actores.Where(a => a.Nombre.Contains(nombre))
+                .ProjectTo<PeliculaActorResponseDTO>(mapper.ConfigurationProvider).ToListAsync();
         }
 
         //FromForm es para que se puedan enviar archivos en el formulario

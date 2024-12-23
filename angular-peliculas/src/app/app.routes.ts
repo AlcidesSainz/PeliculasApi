@@ -12,6 +12,7 @@ import { EditarActorComponent } from './actores/editar-actor/editar-actor.compon
 import { EditarPeliculaComponent } from './peliculas/editar-pelicula/editar-pelicula.component';
 import { EditarCineComponent } from './cines/editar-cine/editar-cine.component';
 import { FiltroPeliculasComponent } from './peliculas/filtro-peliculas/filtro-peliculas.component';
+import { DetallePeliculaComponent } from './peliculas/detalle-pelicula/detalle-pelicula.component';
 
 export const routes: Routes = [
   { path: '', component: LangingPageComponent },
@@ -33,6 +34,7 @@ export const routes: Routes = [
 
   { path: 'peliculas/filtrar', component: FiltroPeliculasComponent },
 
+  {path: 'peliculas/:id',component: DetallePeliculaComponent},
   //Este siempre debe de ir al final ya que es usado para cuando no se encuentra ninguna ruta de las que ya estan configuradas
   { path: '**', redirectTo: '' },
 ];

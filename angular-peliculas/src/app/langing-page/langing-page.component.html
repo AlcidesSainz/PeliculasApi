@@ -1,5 +1,8 @@
 <h2>En cines</h2>
-<app-listado-peliculas [peliculas]="peliculasEnCines"></app-listado-peliculas>
+<app-listado-peliculas [peliculas]="peliculasEnCines" (borrado)="peliculasBorrado()"></app-listado-peliculas>
 
 <h2>Proximos estrenos</h2>
-<app-listado-peliculas [peliculas]="peliculasProximosEstrenos"></app-listado-peliculas>
+<app-listado-peliculas [peliculas]="peliculasProximosEstrenos" (borrado)="peliculasBorrado()"></app-listado-peliculas>
+
+<h2>Todas las pelliculas</h2>
+<app-listado-peliculas [peliculas]="peliculas" (borrado)="peliculasBorrado()"></app-listado-peliculas>

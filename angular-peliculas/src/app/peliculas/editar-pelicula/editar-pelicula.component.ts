@@ -1,55 +1,86 @@
-import { Component, Input, numberAttribute } from '@angular/core';
+import {
+  Component,
+  inject,
+  Inject,
+  Input,
+  numberAttribute,
+  OnInit,
+} from '@angular/core';
 import { PeliculaCreacionDTO, PeliculaDTO } from '../peliculas';
 import { FormularioPeliculasComponent } from '../formulario-peliculas/formulario-peliculas.component';
 import { SelectorMultipleDTO } from '../../compartidos/componentes/selector-multiple/SelectorMultipleModelo';
 import { ActoreAutoCompleteDTO } from '../../actores/actores';
+import { PeliculasService } from '../peliculas.service';
+import { Router } from '@angular/router';
+import { extraerErrores } from '../../compartidos/funciones/extraerErrores';
+import { MostrarErroresComponent } from "../../compartidos/componentes/mostrar-errores/mostrar-errores.component";
+import { CargandoComponent } from "../../compartidos/componentes/cargando/cargando.component";
 
 @Component({
   selector: 'app-editar-pelicula',
   standalone: true,
-  imports: [FormularioPeliculasComponent],
+  imports: [FormularioPeliculasComponent, MostrarErroresComponent, CargandoComponent],
   templateUrl: './editar-pelicula.component.html',
   styleUrl: './editar-pelicula.component.css',
 })
-export class EditarPeliculaComponent {
+export class EditarPeliculaComponent implements OnInit {
+  ngOnInit(): void {
+    this.peliculasService.actualizarGet(this.id).subscribe((modelo) => {
+      this.pelicula = modelo.pelicula;
+
+      this.actoresSeleccionados = modelo.actores;
+
+      this.cinesNoSeleccionados = modelo.cinesNoSeleccionados.map((cine) => {
+        return <SelectorMultipleDTO>{
+          llave: cine.id,
+          valor: cine.nombre,
+        };
+      });
+
+      this.cinesSeleccionados = modelo.cinesSeleccionados.map((cine) => {
+        return <SelectorMultipleDTO>{
+          llave: cine.id,
+          valor: cine.nombre,
+        };
+      });
+      this.generosNoSeleccionados = modelo.generosNoSeleccionados.map(
+        (genero) => {
+          return <SelectorMultipleDTO>{
+            llave: genero.id,
+            valor: genero.nombre,
+          };
+        }
+      );
+      this.generosSeleccionados = modelo.generosSeleccionados.map((genero) => {
+        return <SelectorMultipleDTO>{
+          llave: genero.id,
+          valor: genero.nombre,
+        };
+      });
+    });
+  }
   @Input({ transform: numberAttribute })
   id!: number;
+  pelicula!: PeliculaDTO;
+  generosSeleccionados!: SelectorMultipleDTO[];
+  generosNoSeleccionados!: SelectorMultipleDTO[];
+  cinesSeleccionados!: SelectorMultipleDTO[];
+  cinesNoSeleccionados!: SelectorMultipleDTO[];
+  actoresSeleccionados!: ActoreAutoCompleteDTO[];
 
-  pelicula: PeliculaDTO = {
-    id: 1,
-    titulo: 'El Padrino',
-    trailer: 'ABC',
-    fechaLanzamiento: new Date('1972-01-01'),
-    poster:
-      'https://media.themoviedb.org/t/p/w300_and_h450_bestv2/5HlLUsmsv60cZVTzVns9ICZD6zU.jpg',
-  };
-  generosSeleccionados: SelectorMultipleDTO[] = [{ llave: 2, valor: 'Accion' }];
+  peliculasService = inject(PeliculasService);
+  router = inject(Router)
+  errores: string[] = []
 
-  generosNoSeleccionados: SelectorMultipleDTO[] = [
-    { llave: 1, valor: 'Drama' },
-    { llave: 3, valor: 'Comedia' },
-    { llave: 4, valor: 'Terror' },
-    { llave: 5, valor: 'Fantasia' },
-    { llave: 6, valor: 'Thriller' },
-  ];
-
-  cinesSeleccionados: SelectorMultipleDTO[] = [{ llave: 3, valor: 'Cinemark' }];
-
-  cinesNoSeleccionados: SelectorMultipleDTO[] = [
-    { llave: 1, valor: 'Cinemax' },
-    { llave: 2, valor: 'Multicines' },
-    { llave: 4, valor: 'Supercines' },
-  ];
-
-  actoresSeleccionados: ActoreAutoCompleteDTO[] = [
-    {
-      id: 1,
-      nombre: 'Leonardo DiCaprio',
-      personaje: 'Jay Gatsby',
-      foto: 'https://media.themoviedb.org/t/p/w300_and_h450_bestv2/wo2hJpn04vbtmh0B9utCFdsQhxM.jpg',
-    },
-  ];
   guardarCambios(pelicula: PeliculaCreacionDTO) {
-    console.log('Editando el actor', pelicula);
+    this.peliculasService.actualizar(this.id, pelicula).subscribe({
+      next: () => {
+        this.router.navigate(['/'])
+      },
+      error: err => {
+        const errores = extraerErrores(err)
+        this.errores = errores
+      }
+   })
   }
 }

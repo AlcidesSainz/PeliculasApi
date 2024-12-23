@@ -22,6 +22,11 @@ export class PeliculasService {
   public obtenerLandingPage(): Observable<LandingPagePeliculasDTO> {
     return this.http.get<LandingPagePeliculasDTO>(`${this.urlBase}/landing`);
   }
+  
+  public obtenerPorId(id: number): Observable<PeliculaDTO> {
+    return this.http.get<PeliculaDTO>(`${this.urlBase}/${id}`);
+  }
+
 
   public crearGet(): Observable<PeliculasPostGetDTO> {
     return this.http.get<PeliculasPostGetDTO>(`${this.urlBase}/postget`);

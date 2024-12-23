@@ -22,9 +22,17 @@ export class MapaComponent implements OnInit{
     this.capas = this.coordenadasIniciales.map(valor => {
       const marcador = marker([valor.latitud, valor.longitud], this.markerOptions);
 
+      if (valor.text) {
+        marcador.bindPopup(valor.text, { autoClose: false, autoPan: false });
+      }
+
       return marcador
     })
   }
+
+  @Input()
+  soloLectura = false;
+
   @Input()
   coordenadasIniciales: Coordenada[] = [];
 
@@ -56,6 +64,10 @@ export class MapaComponent implements OnInit{
   manejarClick(event: LeafletMouseEvent) {
     const latitud = event.latlng.lat;
     const longitud = event.latlng.lng;
+
+    if (this.soloLectura) {
+      return;
+    }
 
     this.capas = [];
     this.capas.push(marker([latitud, longitud], this.markerOptions));

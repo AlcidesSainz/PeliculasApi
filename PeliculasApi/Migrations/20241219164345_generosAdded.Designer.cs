@@ -13,8 +13,8 @@ using PeliculasApi;
 namespace PeliculasApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241217165758_PeliculasEntityModified")]
-    partial class PeliculasEntityModified
+    [Migration("20241219164345_generosAdded")]
+    partial class generosAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,7 +51,7 @@ namespace PeliculasApi.Migrations
                     b.ToTable("Actores");
                 });
 
-            modelBuilder.Entity("PeliculasApi.Entidades.Cines", b =>
+            modelBuilder.Entity("PeliculasApi.Entidades.Cine", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -89,6 +89,108 @@ namespace PeliculasApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Generos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nombre = "Acción"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nombre = "Aventura"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Nombre = "Ciencia Ficción"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Nombre = "Comedia"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Nombre = "Drama"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Nombre = "Terror"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Nombre = "Thriller"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Nombre = "Fantasía"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Nombre = "Animación"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Nombre = "Romance"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Nombre = "Musical"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Nombre = "Documental"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Nombre = "Crimen"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Nombre = "Bélico"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Nombre = "Western"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Nombre = "Biografía"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Nombre = "Deportes"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Nombre = "Superhéroes"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Nombre = "Policial"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Nombre = "Infantil"
+                        });
                 });
 
             modelBuilder.Entity("PeliculasApi.Entidades.Pelicula", b =>
@@ -150,16 +252,11 @@ namespace PeliculasApi.Migrations
                     b.Property<int>("PeliculaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CinesId")
-                        .HasColumnType("int");
-
                     b.HasKey("CineId", "PeliculaId");
-
-                    b.HasIndex("CinesId");
 
                     b.HasIndex("PeliculaId");
 
-                    b.ToTable("PeliculaCines");
+                    b.ToTable("PeliculaCine");
                 });
 
             modelBuilder.Entity("PeliculasApi.Entidades.PeliculaGenero", b =>
@@ -174,7 +271,7 @@ namespace PeliculasApi.Migrations
 
                     b.HasIndex("PeliculaId");
 
-                    b.ToTable("PeliculaGeneros");
+                    b.ToTable("PeliculaGenero");
                 });
 
             modelBuilder.Entity("PeliculasApi.Entidades.PeliculaActor", b =>
@@ -198,9 +295,9 @@ namespace PeliculasApi.Migrations
 
             modelBuilder.Entity("PeliculasApi.Entidades.PeliculaCine", b =>
                 {
-                    b.HasOne("PeliculasApi.Entidades.Cines", "Cines")
+                    b.HasOne("PeliculasApi.Entidades.Cine", "Cine")
                         .WithMany()
-                        .HasForeignKey("CinesId")
+                        .HasForeignKey("CineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -210,7 +307,7 @@ namespace PeliculasApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Cines");
+                    b.Navigation("Cine");
 
                     b.Navigation("Pelicula");
                 });

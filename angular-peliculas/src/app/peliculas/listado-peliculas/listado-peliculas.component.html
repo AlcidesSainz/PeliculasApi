@@ -5,20 +5,22 @@
             {
             <div class="pelicula-contenedor">
                 <a>
-                    @if (pelicula.poster) 
+                    @if (pelicula.poster)
                     {
-                        <img [src]="pelicula.poster" width="200" height="300">
-                    }@else 
+                    <img [src]="pelicula.poster" width="200" height="300">
+                    }@else
                     {
-                        <img src="default.jpg" width="200" height="300">
+                    <img src="default.jpg" width="200" height="300">
                     }
                 </a>
                 <p>
                     <a>{{pelicula.titulo}}</a>
                 </p>
                 <div>
-                    <a mat-flat-button >Editar</a>
-                    <button mat-flat-button type="button" color="warn">Borrar</button>
+                    <a mat-flat-button [routerLink]="['/peliculas/editar',pelicula.id]">Editar</a>
+                    <button mat-flat-button type="button"
+                        [swal]="{title:'Confirmacion', text:'Deseas borrar el registro?',showCancelButton:true}"
+                        (confirm)="borrar(pelicula.id)" color="warn">Borrar</button>
                 </div>
             </div>
             }

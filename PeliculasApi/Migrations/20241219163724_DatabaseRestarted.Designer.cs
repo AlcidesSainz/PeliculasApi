@@ -13,8 +13,8 @@ using PeliculasApi;
 namespace PeliculasApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241217190423_PeliculasEntityModified2.2")]
-    partial class PeliculasEntityModified22
+    [Migration("20241219163724_DatabaseRestarted")]
+    partial class DatabaseRestarted
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,7 +51,7 @@ namespace PeliculasApi.Migrations
                     b.ToTable("Actores");
                 });
 
-            modelBuilder.Entity("PeliculasApi.Entidades.Cines", b =>
+            modelBuilder.Entity("PeliculasApi.Entidades.Cine", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -150,16 +150,11 @@ namespace PeliculasApi.Migrations
                     b.Property<int>("PeliculaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CinesId")
-                        .HasColumnType("int");
-
                     b.HasKey("CineId", "PeliculaId");
-
-                    b.HasIndex("CinesId");
 
                     b.HasIndex("PeliculaId");
 
-                    b.ToTable("PeliculaCines");
+                    b.ToTable("PeliculaCine");
                 });
 
             modelBuilder.Entity("PeliculasApi.Entidades.PeliculaGenero", b =>
@@ -198,9 +193,9 @@ namespace PeliculasApi.Migrations
 
             modelBuilder.Entity("PeliculasApi.Entidades.PeliculaCine", b =>
                 {
-                    b.HasOne("PeliculasApi.Entidades.Cines", "Cines")
+                    b.HasOne("PeliculasApi.Entidades.Cine", "Cine")
                         .WithMany()
-                        .HasForeignKey("CinesId")
+                        .HasForeignKey("CineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -210,7 +205,7 @@ namespace PeliculasApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Cines");
+                    b.Navigation("Cine");
 
                     b.Navigation("Pelicula");
                 });

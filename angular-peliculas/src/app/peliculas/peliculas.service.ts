@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
@@ -22,12 +22,18 @@ export class PeliculasService {
   public obtenerLandingPage(): Observable<LandingPagePeliculasDTO> {
     return this.http.get<LandingPagePeliculasDTO>(`${this.urlBase}/landing`);
   }
-  
+
   public obtenerPorId(id: number): Observable<PeliculaDTO> {
     return this.http.get<PeliculaDTO>(`${this.urlBase}/${id}`);
   }
 
-
+  public filtrar(valores: any): Observable<HttpResponse<PeliculaDTO[]>> {
+    const params = new HttpParams({ fromObject: valores });
+    return this.http.get<PeliculaDTO[]>(`${this.urlBase}/filtrar`, {
+      params,
+      observe: 'response',
+    });
+  }
   public crearGet(): Observable<PeliculasPostGetDTO> {
     return this.http.get<PeliculasPostGetDTO>(`${this.urlBase}/postget`);
   }
@@ -44,7 +50,7 @@ export class PeliculasService {
     const formData = this.construirFormData(pelicula);
     return this.http.put(`${this.urlBase}/${id}`, formData);
   }
-  
+
   private construirFormData(pelicula: PeliculaCreacionDTO): FormData {
     const formData = new FormData();
 
@@ -66,7 +72,7 @@ export class PeliculasService {
 
     return formData;
   }
-  borrar(id: number): Observable<any>{
-    return this.http.delete(`${this.urlBase}/${id}`)
+  borrar(id: number): Observable<any> {
+    return this.http.delete(`${this.urlBase}/${id}`);
   }
 }

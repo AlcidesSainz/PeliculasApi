@@ -9,6 +9,7 @@ using PeliculasApi.DTOs.Request;
 using PeliculasApi.DTOs.Response;
 using PeliculasApi.Entidades;
 using PeliculasApi.Servicios;
+using PeliculasApi.Utilities;
 
 
 namespace PeliculasApi.Controllers
@@ -74,6 +75,38 @@ namespace PeliculasApi.Controllers
                 return NotFound();
             }
             return pelicula;
+        }
+
+        [HttpGet("filtrar")]
+        public async Task<ActionResult<List<PeliculaResponseDTO>>> Filtrar([FromQuery] PeliculasFiltrarResponseDTO peliculasFiltrarResponseDTO)
+        {
+            var peliculaQueryable = dbContext.Peliculas.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(peliculasFiltrarResponseDTO.Titulo))
+            {
+                peliculaQueryable = peliculaQueryable.Where(p => p.Titulo.Contains(peliculasFiltrarResponseDTO.Titulo));
+            }
+            if (peliculasFiltrarResponseDTO.EnCines)
+            {
+                peliculaQueryable = peliculaQueryable.Where(p => p.PeliculaCine.Select(pc => pc.PeliculaId).Contains(p.Id));
+            }
+            if (peliculasFiltrarResponseDTO.ProximoEstreno)
+            {
+                var hoy = DateTime.Today;
+                peliculaQueryable = peliculaQueryable.Where(p => p.FechaLanzamiento > hoy);
+            }
+            if (peliculasFiltrarResponseDTO.GeneroId != 0)
+            {
+                peliculaQueryable = peliculaQueryable.Where(p => p.PeliculaGenero.Select(pg => pg.GeneroId).Contains(peliculasFiltrarResponseDTO.GeneroId));
+            }
+            await HttpContext.InsertarParametrosPaginacionEnCabecera(peliculaQueryable);
+             
+            var peliculas = await peliculaQueryable
+                .Paginar(peliculasFiltrarResponseDTO.Paginacion)
+                .ProjectTo<PeliculaResponseDTO>(mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            return peliculas;
         }
 
         [HttpGet("PostGet")]
@@ -165,7 +198,7 @@ namespace PeliculasApi.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult>Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             return await Delete<Pelicula>(id);
         }

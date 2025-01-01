@@ -24,6 +24,12 @@ namespace PeliculasApi.Controllers
             this.dbContext = dbContext;
             this.mapper = mapper;
         }
+        [HttpGet("todos")]
+        [OutputCache(Tags = [cacheTag])]
+        public async Task<List<GeneroResponseDTO>> Get()
+        {
+            return await Get<Genero, GeneroResponseDTO>(ordenarPor: g => g.Nombre);
+        }
 
         [HttpGet]
         [OutputCache(Tags = [cacheTag])]

@@ -34,6 +34,10 @@ export class GeneroService implements IServicioCRUD<GeneroDTO,GeneroCreacionDTO>
     return this.http.get<GeneroDTO>(`${this.urlBase}/${id}`);
   }
 
+  public obtenerTodoslosGeneros(): Observable<GeneroDTO[]> {
+    return this.http.get<GeneroDTO[]>(this.urlBase);
+  }
+
   public actualizar(id: number, genero: GeneroCreacionDTO) {
     return this.http.put(`${this.urlBase}/${id}`, genero);
   }

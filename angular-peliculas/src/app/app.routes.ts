@@ -13,28 +13,71 @@ import { EditarPeliculaComponent } from './peliculas/editar-pelicula/editar-peli
 import { EditarCineComponent } from './cines/editar-cine/editar-cine.component';
 import { FiltroPeliculasComponent } from './peliculas/filtro-peliculas/filtro-peliculas.component';
 import { DetallePeliculaComponent } from './peliculas/detalle-pelicula/detalle-pelicula.component';
+import { esAdminGuard } from './compartidos/guards/es-admin.guard';
+import { LoginComponent } from './seguridad/login/login.component';
 
 export const routes: Routes = [
   { path: '', component: LangingPageComponent },
-
-  { path: 'generos', component: IndiceGenerosComponent },
-  { path: 'generos/crear', component: CrearGenerosComponent },
-  { path: 'generos/editar/:id', component: EditarGeneroComponent },
-
-  { path: 'actores', component: IndiceActoresComponent },
-  { path: 'actores/crear', component: CrearActorComponent },
-  { path: 'actores/editar/:id', component: EditarActorComponent },
-
-  { path: 'cines', component: IndiceCinesComponent },
-  { path: 'cines/crear', component: CrearCineComponent },
-  { path: 'cines/editar/:id', component: EditarCineComponent },
-
-  { path: 'peliculas/crear', component: CrearPeliculasComponent },
-  { path: 'peliculas/editar/:id', component: EditarPeliculaComponent },
+  {
+    path: 'generos',
+    component: IndiceGenerosComponent,
+    canActivate: [esAdminGuard],
+  },
+  {
+    path: 'generos/crear',
+    component: CrearGenerosComponent,
+    canActivate: [esAdminGuard],
+  },
+  {
+    path: 'generos/editar/:id',
+    component: EditarGeneroComponent,
+    canActivate: [esAdminGuard],
+  },
+  {
+    path: 'actores',
+    component: IndiceActoresComponent,
+    canActivate: [esAdminGuard],
+  },
+  {
+    path: 'actores/crear',
+    component: CrearActorComponent,
+    canActivate: [esAdminGuard],
+  },
+  {
+    path: 'actores/editar/:id',
+    component: EditarActorComponent,
+    canActivate: [esAdminGuard],
+  },
+  {
+    path: 'cines',
+    component: IndiceCinesComponent,
+    canActivate: [esAdminGuard],
+  },
+  {
+    path: 'cines/crear',
+    component: CrearCineComponent,
+    canActivate: [esAdminGuard],
+  },
+  {
+    path: 'cines/editar/:id',
+    component: EditarCineComponent,
+    canActivate: [esAdminGuard],
+  },
+  {
+    path: 'peliculas/crear',
+    component: CrearPeliculasComponent,
+    canActivate: [esAdminGuard],
+  },
+  {
+    path: 'peliculas/editar/:id',
+    component: EditarPeliculaComponent,
+    canActivate: [esAdminGuard],
+  },
 
   { path: 'peliculas/filtrar', component: FiltroPeliculasComponent },
+  { path: 'peliculas/:id', component: DetallePeliculaComponent },
 
-  {path: 'peliculas/:id',component: DetallePeliculaComponent},
+  { path: 'login', component: LoginComponent },
   //Este siempre debe de ir al final ya que es usado para cuando no se encuentra ninguna ruta de las que ya estan configuradas
   { path: '**', redirectTo: '' },
 ];

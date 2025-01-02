@@ -7,10 +7,11 @@ import { RatingComponent } from "../../compartidos/componentes/rating/rating.com
 import { RouterLink } from '@angular/router';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { PeliculasService } from '../peliculas.service';
+import { AutorizadoComponent } from "../../seguridad/autorizado/autorizado.component";
 @Component({
   selector: 'app-listado-peliculas',
   standalone: true,
-  imports: [DatePipe, UpperCasePipe, CurrencyPipe, ListadoGenericoComponent, MatButtonModule, MatIconModule, RouterLink,SweetAlert2Module],
+  imports: [DatePipe, UpperCasePipe, CurrencyPipe, ListadoGenericoComponent, MatButtonModule, MatIconModule, RouterLink, SweetAlert2Module, AutorizadoComponent],
   templateUrl: './listado-peliculas.component.html',
   styleUrl: './listado-peliculas.component.css',
 })

@@ -1,10 +1,13 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using NetTopologySuite;
 using NetTopologySuite.Geometries;
 using PeliculasApi;
 using PeliculasApi.Servicios;
 using PeliculasApi.Utilities;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +48,25 @@ builder.Services.AddSingleton(proveedor => new MapperConfiguration(configuracion
     configuracion.AddProfile(new AutoMapperProfiles(geometryFactory));
 }).CreateMapper());
 
+//Configuracion de Identity
+builder.Services.AddIdentityCore<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+builder.Services.AddScoped<UserManager<IdentityUser>>();
+builder.Services.AddScoped<SignInManager<IdentityUser>>();
+
+builder.Services.AddAuthentication().AddJwtBearer(opciones =>
+{
+    opciones.MapInboundClaims = false;
+    opciones.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["llavejwt"]!)),
+        ClockSkew = TimeSpan.Zero
+    };
+});
 //Configurando la conexion a la base de datos SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(opciones =>
 opciones.UseSqlServer("name=DefaultConnection", sqlServer => sqlServer.UseNetTopologySuite()));

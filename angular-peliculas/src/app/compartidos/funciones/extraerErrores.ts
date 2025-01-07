@@ -11,3 +11,12 @@ export function extraerErrores(obj: any): string[] {
   }
   return mensasjeDeError;
 }
+export function extrarErroresIdentity(obj: any): string[]{
+  let mensajesDeError: string[] = [];
+
+  for (let i = 0; i < obj.error.length; i++){
+    const elementos = obj.error[i]
+    mensajesDeError.push(elementos.description)
+  }
+  return mensajesDeError;
+}

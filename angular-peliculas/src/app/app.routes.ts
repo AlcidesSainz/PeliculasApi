@@ -15,6 +15,7 @@ import { FiltroPeliculasComponent } from './peliculas/filtro-peliculas/filtro-pe
 import { DetallePeliculaComponent } from './peliculas/detalle-pelicula/detalle-pelicula.component';
 import { esAdminGuard } from './compartidos/guards/es-admin.guard';
 import { LoginComponent } from './seguridad/login/login.component';
+import { RegistroComponent } from './seguridad/registro/registro.component';
 
 export const routes: Routes = [
   { path: '', component: LangingPageComponent },
@@ -78,6 +79,7 @@ export const routes: Routes = [
   { path: 'peliculas/:id', component: DetallePeliculaComponent },
 
   { path: 'login', component: LoginComponent },
+  { path: 'registrar', component: RegistroComponent },
   //Este siempre debe de ir al final ya que es usado para cuando no se encuentra ninguna ruta de las que ya estan configuradas
   { path: '**', redirectTo: '' },
 ];

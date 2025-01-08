@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using NetTopologySuite.Geometries;
 using PeliculasApi.DTOs.Request;
 using PeliculasApi.DTOs.Response;
@@ -14,6 +15,12 @@ namespace PeliculasApi.Utilities
             ConfigureMapperActores();
             ConfigureMapperCines(geometryFactory);
             ConfigurarMappeoPeliculas();
+            ConfigurarMappeoUsuarios();
+        }
+
+        private void ConfigurarMappeoUsuarios()
+        {
+            CreateMap<IdentityUser,UsuarioResponseDTO>();
         }
 
         private void ConfigurarMappeoPeliculas()

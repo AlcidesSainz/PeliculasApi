@@ -68,6 +68,14 @@ builder.Services.AddAuthentication().AddJwtBearer(opciones =>
         ClockSkew = TimeSpan.Zero
     };
 });
+
+//Configurando politicas de acceso (claims)
+builder.Services.AddAuthorization(opciones =>
+{
+    opciones.AddPolicy("esAdmin", politica => politica.RequireClaim("esadmin"));
+});
+
+
 //Configurando la conexion a la base de datos SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(opciones =>
 opciones.UseSqlServer("name=DefaultConnection", sqlServer => sqlServer.UseNetTopologySuite()));

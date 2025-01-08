@@ -81,4 +81,7 @@ export class SeguridadService {
   obtenerRol(): string {
     return '';
   }
+  obtenerToken(): string | null {
+    return localStorage.getItem(this.llaveToken);
+  }
 }

@@ -41,6 +41,7 @@ builder.Services.AddCors(opciones =>
 
 builder.Services.AddTransient<IAlmacenadorArchivos, AlmacenadorArchivoLocal>();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<IServicioUsuarios, ServicioUsuarios>();
 //Configurando el Auto Mapper con Geometry Factory
 builder.Services.AddSingleton(proveedor => new MapperConfiguration(configuracion =>
 {

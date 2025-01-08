@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PeliculasApi.DTOs.Response;
+using PeliculasApi.Utilities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -20,12 +24,26 @@ namespace PeliculasApi.Controllers
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly IConfiguration configuration;
+        private readonly ApplicationDbContext dbContext;
+        private readonly IMapper mapper;
 
-        public UsuariosController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration)
+        public UsuariosController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration, ApplicationDbContext dbContext, IMapper mapper)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.configuration = configuration;
+            this.dbContext = dbContext;
+            this.mapper = mapper;
+        }
+
+        [HttpGet("ListadoUsuarios")]
+        public async Task<ActionResult<List<UsuarioResponseDTO>>> ListadoUsuarios([FromQuery] PaginacionResponseDTO paginacionResponseDTO)
+        {
+            var queryable = dbContext.Users.AsQueryable();
+            await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
+            var usuarios = await queryable.ProjectTo<UsuarioResponseDTO>(mapper.ConfigurationProvider)
+                .OrderBy(x => x.Email).Paginar(paginacionResponseDTO).ToListAsync();
+            return usuarios;
         }
 
         [HttpPost("registrar")]

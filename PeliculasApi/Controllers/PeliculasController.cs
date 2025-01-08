@@ -107,6 +107,7 @@ namespace PeliculasApi.Controllers
         }
 
         [HttpGet("filtrar")]
+        [AllowAnonymous]
         public async Task<ActionResult<List<PeliculaResponseDTO>>> Filtrar([FromQuery] PeliculasFiltrarResponseDTO peliculasFiltrarResponseDTO)
         {
             var peliculaQueryable = dbContext.Peliculas.AsQueryable();

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using PeliculasApi.DTOs.Request;
@@ -10,6 +12,8 @@ namespace PeliculasApi.Controllers
 {
     [Route("api/generos")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "esadmin")]
+
     public class GenerosController : CustomBaseController
     {
 
@@ -26,6 +30,7 @@ namespace PeliculasApi.Controllers
         }
         [HttpGet("todos")]
         [OutputCache(Tags = [cacheTag])]
+        [AllowAnonymous]
         public async Task<List<GeneroResponseDTO>> Get()
         {
             return await Get<Genero, GeneroResponseDTO>(ordenarPor: g => g.Nombre);

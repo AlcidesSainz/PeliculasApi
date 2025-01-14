@@ -23,6 +23,9 @@
             <div>
                 <a mat-button routerLink="peliculas/crear">Crear Peliculas</a>
             </div>
+            <div>
+                <a mat-button routerLink="usuarios">Usuarios</a>
+            </div>
         </ng-container>
     </app-autorizado>
 
@@ -31,7 +34,7 @@
     <app-autorizado style="display: inline;">
         <ng-container autorizado>
             <span class="saludo">Hola,{{seguridadService.obtenerCamposJWT('email')}}</span>
-            <a mat-button (click)="seguridadService.logout()">Logout</a>
+            <a mat-button (click)="seguridadService.logout()" routerLink="/">Logout</a>
         </ng-container>
 
         <ng-container noAutorizado>

@@ -72,7 +72,7 @@ builder.Services.AddAuthentication().AddJwtBearer(opciones =>
 //Configurando politicas de acceso (claims)
 builder.Services.AddAuthorization(opciones =>
 {
-    opciones.AddPolicy("esAdmin", politica => politica.RequireClaim("esadmin"));
+    opciones.AddPolicy("esadmin", politica => politica.RequireClaim("esadmin"));
 });
 
 

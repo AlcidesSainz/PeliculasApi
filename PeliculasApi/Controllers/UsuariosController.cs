@@ -17,7 +17,7 @@ namespace PeliculasApi.Controllers
 {
     [Route("api/usuarios")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "esadmin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "esadmin")]
 
     public class UsuariosController : ControllerBase
     {
@@ -27,6 +27,7 @@ namespace PeliculasApi.Controllers
         private readonly ApplicationDbContext dbContext;
         private readonly IMapper mapper;
 
+        
         public UsuariosController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration, ApplicationDbContext dbContext, IMapper mapper)
         {
             this.userManager = userManager;
@@ -92,7 +93,7 @@ namespace PeliculasApi.Controllers
             }
         }
 
-        [HttpOptions("HacerAdmin")]
+        [HttpPost("hacerAdmin")]
         public async Task<IActionResult> HacerAdmin(EditarClaimResponseDTO editarClaimResponseDTO)
         {
             var usuario = await userManager.FindByEmailAsync(editarClaimResponseDTO.Email);
@@ -104,7 +105,7 @@ namespace PeliculasApi.Controllers
             return NoContent();
         }
 
-        [HttpOptions("RemoverAdmin")]
+        [HttpPost("removerAdmin")]
         public async Task<IActionResult> RemoverAdmin(EditarClaimResponseDTO editarClaimResponseDTO)
         {
             var usuario = await userManager.FindByEmailAsync(editarClaimResponseDTO.Email);

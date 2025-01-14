@@ -16,6 +16,7 @@ import { DetallePeliculaComponent } from './peliculas/detalle-pelicula/detalle-p
 import { esAdminGuard } from './compartidos/guards/es-admin.guard';
 import { LoginComponent } from './seguridad/login/login.component';
 import { RegistroComponent } from './seguridad/registro/registro.component';
+import { IndiceUsuariosComponent } from './seguridad/indice-usuarios/indice-usuarios.component';
 
 export const routes: Routes = [
   { path: '', component: LangingPageComponent },
@@ -80,6 +81,11 @@ export const routes: Routes = [
 
   { path: 'login', component: LoginComponent },
   { path: 'registrar', component: RegistroComponent },
+  {
+    path: 'usuarios',
+    component: IndiceUsuariosComponent,
+    canActivate: [esAdminGuard],
+  },
   //Este siempre debe de ir al final ya que es usado para cuando no se encuentra ninguna ruta de las que ya estan configuradas
   { path: '**', redirectTo: '' },
 ];

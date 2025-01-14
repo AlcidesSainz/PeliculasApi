@@ -1,8 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { CredencialesUsuarioDTO, RespuestaAutenticacionDTO } from './seguridad';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import {
+  CredencialesUsuarioDTO,
+  RespuestaAutenticacionDTO,
+  UsuarioDTO,
+} from './seguridad';
 import { Observable, tap } from 'rxjs';
+import { PaginacionDTO } from '../compartidos/modelos/PaginacionDTO';
+import { construirQueryParams } from '../compartidos/funciones/construirQueryParams';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +20,22 @@ export class SeguridadService {
   private urlBase = environment.apiUrl + '/usuarios';
   private readonly llaveToken = 'token';
   private readonly llaveExpiracion = 'token-expiracion';
+
+  obtenerUsuariosPaginado(
+    paginacion: PaginacionDTO
+  ): Observable<HttpResponse<UsuarioDTO[]>> {
+    let queryParams = construirQueryParams(paginacion);
+    return this.http.get<UsuarioDTO[]>(`${this.urlBase}/ListadoUsuarios`, {
+      params: queryParams,
+      observe: 'response',
+    });
+  }
+  hacerAdmin(email: string) {
+    return this.http.post(`${this.urlBase}/haceradmin`, { email });
+  }
+  removerAdmin(email: string) {
+    return this.http.post(`${this.urlBase}/removeradmin`, { email });
+  }
 
   registrar(
     credenciales: CredencialesUsuarioDTO
@@ -42,9 +64,9 @@ export class SeguridadService {
       );
   }
 
-  obtenerCamposJWT(campo: string): string{
+  obtenerCamposJWT(campo: string): string {
     const token = localStorage.getItem(this.llaveToken);
-    if(!token){
+    if (!token) {
       return '';
     }
     var dataToken = JSON.parse(atob(token.split('.')[1]));
@@ -61,25 +83,31 @@ export class SeguridadService {
 
   estaLogueado(): boolean {
     const token = localStorage.getItem(this.llaveToken);
-    
-    if(!token){
+
+    if (!token) {
       return false;
     }
     const expiracion = localStorage.getItem(this.llaveExpiracion)!;
     const expiracionFecha = new Date(expiracion);
 
-    if(expiracionFecha <= new Date()){
+    if (expiracionFecha <= new Date()) {
       this.logout();
       return false;
     }
-    return true
+    return true;
   }
   logout() {
     localStorage.removeItem(this.llaveToken);
     localStorage.removeItem(this.llaveExpiracion);
+    
   }
   obtenerRol(): string {
-    return '';
+    const esAdmin = this.obtenerCamposJWT('esadmin');
+    if (esAdmin) {
+      return 'admin';
+    } else {
+      return '';
+    }
   }
   obtenerToken(): string | null {
     return localStorage.getItem(this.llaveToken);

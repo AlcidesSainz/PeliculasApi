@@ -1,0 +1,26 @@
+<div id="carouselExample" class="carousel slide" data-bs-ride="false" style="width: 75%;">
+    <div class="carousel-inner" style="border-radius: 10px;">
+        <div *ngFor="let pelicula of peliculasProximosEstrenos; let i = index"
+            [class]="i === 0 ? 'carousel-item active' : 'carousel-item'">
+            <!-- Iframe del tráiler -->
+        <iframe [src]="sanitizarUrl(pelicula.trailer + '?rel=0&showinfo=0')" class="d-block w-100" height="500" allowfullscreen
+            frameborder="0"></iframe>
+
+            <!-- Información superpuesta -->
+            <div class="carousel-caption text-start ">
+                <a [routerLink]="['/peliculas',pelicula.id]"><img [src]="pelicula.poster" alt="{{ pelicula.titulo }}" class="poster-img" /></a>
+                <a [routerLink]="['/peliculas',pelicula.id]">{{pelicula.titulo}}</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botones de navegación -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+    </button>
+</div>

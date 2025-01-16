@@ -2,7 +2,6 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +26,7 @@ namespace PeliculasApi.Controllers
         private readonly ApplicationDbContext dbContext;
         private readonly IMapper mapper;
 
-        
+
         public UsuariosController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration, ApplicationDbContext dbContext, IMapper mapper)
         {
             this.userManager = userManager;

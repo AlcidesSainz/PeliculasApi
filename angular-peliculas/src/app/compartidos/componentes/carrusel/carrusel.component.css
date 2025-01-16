@@ -1,0 +1,49 @@
+.carousel-item {
+    position: relative;
+}
+
+.carousel iframe {
+    object-fit: cover;
+    width: 100%;
+    height: 500px;
+    /* Altura del iframe */
+}
+
+.carousel-caption {
+    position: absolute;
+    bottom: 20px;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 50%;
+    width: auto;
+
+}
+
+.poster-img {
+    width: 80px;
+    height: auto;
+    margin-right: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    
+}
+
+.carousel-caption a {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: white;
+}
+.carousel-control-prev, .carousel-control-next {
+    width: 5%; /* Reduce the clickable area */
+    height: 100%;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    width: 100%; /* Ensure the icons are still fully visible */
+    height: 100%;
+}

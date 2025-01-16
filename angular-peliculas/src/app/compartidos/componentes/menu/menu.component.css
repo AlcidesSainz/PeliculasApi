@@ -1,16 +1,53 @@
-mat-toolbar{
+mat-toolbar {
     position: sticky;
     position: -webkit-sticky;
     top: 0;
     z-index: 1000;
+    background-color: rgb(18, 18, 18, 1);
+    margin: 0;
 }
-app-autorizado{
+
+mat-toolbar a {
+    color: white;
+
+}
+
+mat-toolbar a:hover {
+    color: #ff4081;
+}
+
+.toolbar-container {
+    max-width: 88%;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+
+app-autorizado {
     display: flex;
 }
-.espacio{
+
+.espacio {
     flex: 1 1 auto;
 }
-.saludo{
+
+.saludo {
     font-size: 18px;
     display: inline;
 }
+.logo{
+    background-color: #ff4081;
+    border: 2px solid #ff4081;
+    border-radius: 5px;
+    padding: 5px;
+}
+mat-toolbar a:hover .logo {
+    background-color: #ff4081; /* Reafirma el mismo color en hover */
+    border-color: #ff4081;
+    color: white;
+}
+

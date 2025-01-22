@@ -6,14 +6,12 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     background-color: black;
-    /* Fondo negro */
     color: white;
     /* Color del texto blanco */
 }
 body {
     height: fit-content;
 }
-
 
 form button {
     margin-right: 1rem;

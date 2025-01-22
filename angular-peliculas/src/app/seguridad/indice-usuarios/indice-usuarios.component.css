@@ -1,3 +1,60 @@
 button{
     margin-right: 1rem;
 }
+.contenedor {
+    margin: 0 100px;
+    padding-bottom: 100px;
+}
+h2{
+    color: white;
+}
+/* Estilo base para los botones */
+.btn-verde,
+.btn-rojo {
+    position: relative;
+    background-color: #4caf50;
+    /* Verde para promover */
+    color: white;
+    transition: all 0.4s ease;
+    /* Suavidad de la animación */
+    overflow: hidden;
+    padding-left: 1rem;
+    /* Espacio inicial en la izquierda */
+}
+
+.btn-rojo {
+    background-color: #f44336;
+    /* Rojo para remover */
+}
+
+/* Extender hacia la izquierda */
+.btn-verde:hover,
+.btn-rojo:hover {
+    padding-left: 3rem;
+    /* Extiende hacia la izquierda */
+}
+
+/* Ocultar el ícono inicialmente */
+.icono {
+    display: inline-block;
+    opacity: 0;
+    /* Comienza invisible */
+    position: absolute;
+    /* Posición absoluta para alinearlo */
+    left: -1.5rem;
+    /* Espacio del ícono al lado izquierdo */
+    top: 50%;
+    /* Centrar verticalmente */
+    transform: translateY(-50%);
+    /* Ajustar al centro */
+    transition: opacity 0.3s ease 0.3s;
+    /* Aparece después de extenderse */
+    font-size: 1.2rem;
+    /* Tamaño del ícono */
+}
+
+/* Aparece el ícono después de extenderse */
+.btn-verde:hover .icono,
+.btn-rojo:hover .icono {
+    opacity: 1;
+}

@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { ActorCreacionDTO, ActorDTO, ActoreAutoCompleteDTO } from './actores';
+import { ActorCreacionDTO, ActorDTO, ActoreAutoCompleteDTO, LandingPageActoresDTO } from './actores';
 import { PaginacionDTO } from '../compartidos/modelos/PaginacionDTO';
 import { Observable } from 'rxjs';
 import { construirQueryParams } from '../compartidos/funciones/construirQueryParams';
@@ -16,6 +16,10 @@ export class ActoresService
   constructor() {}
   private http = inject(HttpClient);
   private urlBase = environment.apiUrl + '/actores';
+
+  public obtenerLandingPage(): Observable<LandingPageActoresDTO>{
+    return this.http.get<LandingPageActoresDTO>(`${this.urlBase}/landing`);
+  }
 
   public crear(actor: ActorCreacionDTO) {
     const formData = this.construirFormData(actor);

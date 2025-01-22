@@ -12,7 +12,8 @@
 .carousel-caption {
     position: absolute;
     bottom: 20px;
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Fondo semitransparente */
     color: white;
     padding: 10px;
     border-radius: 10px;
@@ -27,7 +28,7 @@
     margin-right: 10px;
     border-radius: 5px;
     display: inline-block;
-    
+
 }
 
 .carousel-caption a {
@@ -38,12 +39,33 @@
     text-decoration: none;
     color: white;
 }
-.carousel-control-prev, .carousel-control-next {
-    width: 5%; /* Reduce the clickable area */
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+    /* Reduce the clickable area */
     height: 100%;
 }
 
-.carousel-control-prev-icon, .carousel-control-next-icon {
-    width: 100%; /* Ensure the icons are still fully visible */
-    height: 100%;
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 50%;
+    /* Ensure the icons are still fully visible */
+    height: 50%;
 }
+
+.carousel-control-prev,
+.carousel-control-next {
+    border: 2px solid white;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+    height: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.carousel-control-prev:hover,
+.carousel-control-next:hover{
+    background-color:#ba005c;
+}
+
+

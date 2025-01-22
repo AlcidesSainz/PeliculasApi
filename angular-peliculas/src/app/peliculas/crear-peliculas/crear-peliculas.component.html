@@ -1,14 +1,18 @@
-<h2>Crear pelicula</h2>
+<div class="contenedor">
+    <h2>Crear pelicula</h2>
 
 
-@if(cinesNoSeleccionados){
-<app-mostrar-errores [errores]="errores"></app-mostrar-errores>
+    @if(cinesNoSeleccionados){
+    <app-mostrar-errores [errores]="errores"></app-mostrar-errores>
 
-<app-formulario-peliculas (posteoFormulario)="guardarcambios($event)" [generosNoSeleccionados]="generosNoSeleccionados"
-    [generosSeleccionados]="generosSeleccionados" [cinesNoSeleccionados]="cinesNoSeleccionados"
-    [cinesSeleccionados]="cinesSeleccionados" [actoresSeleccionados]="actoresSeleccionados">
-</app-formulario-peliculas>
-}
-@else {
+    <app-formulario-peliculas (posteoFormulario)="guardarcambios($event)"
+        [generosNoSeleccionados]="generosNoSeleccionados" [generosSeleccionados]="generosSeleccionados"
+        [cinesNoSeleccionados]="cinesNoSeleccionados" [cinesSeleccionados]="cinesSeleccionados"
+        [actoresSeleccionados]="actoresSeleccionados">
+    </app-formulario-peliculas>
+    }
+    @else {
     <app-cargando></app-cargando>
-}
+    }
+
+</div>

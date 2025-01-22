@@ -1,1 +1,41 @@
-<p>listado-actores works!</p>
+<app-listado-generico [listado]="actores">
+    <ng-container contenido>
+        <div class="carousel-container">
+            <!-- Botón de flecha izquierda -->
+            <button class="arrow left" (click)="prev()">&#8249;</button>
+
+            <!-- Contenedor del carrusel -->
+            <div class="carousel-wrapper">
+                <div class="carousel-content" [style.transform]="'translateX(-' + currentIndex * cardWidth + 'px)'">
+                    @for (actor of actores; track $index) {
+                    <div class="actor-contenedor">
+                        <a [routerLink]="['/actores', actor.id]">
+                            @if (actor.foto) {
+                            <img [src]="actor.foto" />
+                            } @else {
+                            <img src="default.jpg" />
+                            }
+                        </a>
+                        <p>
+                            <a [routerLink]="['/actores', actor.id]">{{ actor.nombre }}</a>
+                        </p>
+                        <div>
+                            <app-autorizado rol="admin">
+                                <ng-container autorizado>
+                                    <a mat-flat-button [routerLink]="['/actores/editar', actor.id]">Editar</a>
+                                    <button mat-flat-button type="button"
+                                        [swal]="{title:'Confirmación', text:'¿Deseas borrar el registro?', showCancelButton: true}"
+                                        (confirm)="borrar(actor.id)" color="warn">
+                                        Borrar
+                                    </button>
+                                </ng-container>
+                            </app-autorizado>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+            <button class="arrow right" (click)="next()">&#8250;</button>
+        </div>
+    </ng-container>
+</app-listado-generico>

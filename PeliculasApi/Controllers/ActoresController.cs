@@ -34,9 +34,24 @@ namespace PeliculasApi.Controllers
         }
         [HttpGet]
         [OutputCache(Tags = [cacheTag])]
+        [AllowAnonymous]
         public async Task<List<ActoresResponseDTO>> Get([FromQuery] PaginacionResponseDTO paginacionResponseDTO)
         {
             return await Get<Actor, ActoresResponseDTO>(paginacionResponseDTO, ordenarPor: a => a.Nombre);
+        }
+
+        [HttpGet("landing")]
+        [OutputCache(Tags = [cacheTag])]
+        [AllowAnonymous]
+        public async Task<ActionResult<LandingPageActoresResponseDTO>> Get()
+        {
+            var top = 10;
+
+            var todosActores = await applicationDbContext.Actores.Take(top).ProjectTo<ActoresResponseDTO>(mapper.ConfigurationProvider).ToListAsync();
+
+            var resultado = new LandingPageActoresResponseDTO();
+            resultado.EnTendencia = todosActores;
+            return resultado;
         }
 
         [HttpGet("{id:int}", Name = "ObtenerActorPorId")]

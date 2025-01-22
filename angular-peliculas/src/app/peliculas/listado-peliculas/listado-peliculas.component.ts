@@ -11,7 +11,7 @@ import { AutorizadoComponent } from "../../seguridad/autorizado/autorizado.compo
 @Component({
   selector: 'app-listado-peliculas',
   standalone: true,
-  imports: [DatePipe, UpperCasePipe, CurrencyPipe, ListadoGenericoComponent, MatButtonModule, MatIconModule, RouterLink, SweetAlert2Module, AutorizadoComponent],
+  imports: [ListadoGenericoComponent, MatButtonModule, MatIconModule, RouterLink, SweetAlert2Module, AutorizadoComponent],
   templateUrl: './listado-peliculas.component.html',
   styleUrl: './listado-peliculas.component.css',
 })

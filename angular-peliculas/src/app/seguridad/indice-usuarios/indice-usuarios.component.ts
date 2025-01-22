@@ -9,11 +9,12 @@ import { PaginacionDTO } from '../../compartidos/modelos/PaginacionDTO';
 import { SeguridadService } from '../seguridad.service';
 import { UsuarioDTO } from '../seguridad';
 import Swal from 'sweetalert2';
+import { CommonModule, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-indice-usuarios',
   standalone: true,
-  imports: [RouterLink,MatButtonModule,MatTableModule,ListadoGenericoComponent,MatPaginatorModule,SweetAlert2Module],
+  imports: [RouterLink,MatButtonModule,MatTableModule,ListadoGenericoComponent,MatPaginatorModule,SweetAlert2Module,NgClass,CommonModule],
   templateUrl: './indice-usuarios.component.html',
   styleUrl: './indice-usuarios.component.css'
 })
@@ -42,11 +43,19 @@ export class IndiceUsuariosComponent {
   }
   hacerAdmin(email: string) {
     this.servicioSeguridad.hacerAdmin(email).subscribe(() => {
+      const usuario = this.usuarios.find(u => u.email === email)
+      if (usuario) {
+        usuario.esAdmin = true
+      }
       Swal.fire('Éxito', `El usuario ${email} ahora es administrador`, 'success');
     });
   }
   removerAdmin(email: string) {
     this.servicioSeguridad.removerAdmin(email).subscribe(() => {
+      const usuario = this.usuarios.find((u) => u.email === email);
+      if (usuario) {
+        usuario.esAdmin = false; 
+      }
       Swal.fire('Éxito', `El usuario ${email} ya no es administrador`, 'success');
     });
   }

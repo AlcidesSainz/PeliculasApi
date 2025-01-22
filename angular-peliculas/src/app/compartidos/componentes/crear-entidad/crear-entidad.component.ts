@@ -32,6 +32,7 @@ export class CrearEntidadComponent<TDTO, TCreacionDTO>
       this.guardarCambios(entidad);
     });
   }
+  
   @Input({ required: true })
   titulo!: string;
 

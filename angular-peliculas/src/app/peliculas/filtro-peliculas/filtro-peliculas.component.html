@@ -1,34 +1,36 @@
-<h2>Buscar Peliculas</h2>
+<div class="contenedor">
+    <h2>Buscar Peliculas</h2>
 
-<form [formGroup]="form">
+    <form [formGroup]="form">
 
-    <mat-form-field appearance="outline">
-        <mat-label>Titulo</mat-label>
-        <input matInput [formControl]="form.controls.titulo" />
-    </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Titulo</mat-label>
+            <input style="color: white;" matInput [formControl]="form.controls.titulo" />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-        <mat-label>Genero</mat-label>
-        <mat-select [formControl]="form.controls.generoId">
-            <mat-option [value]="0">--Seleccione un genero</mat-option>
-            @for (genero of generos; track $index) {
-            <mat-option [value]="genero.id">{{genero.nombre}}</mat-option>
-            }
-        </mat-select>
-    </mat-form-field>
-    <div>
-        <mat-checkbox [formControl]="form.controls.proximosEstrenos">Proximos Estrenos</mat-checkbox>
-    </div>
-    <div>
-        <mat-checkbox [formControl]="form.controls.enCines">En Cines</mat-checkbox>
-    </div>
-    <div>
-        <button mat-flat-button color="warn" (click)="limpiar()">Limpiar</button>
-    </div>
-</form>
-
-<app-listado-peliculas [peliculas]="peliculas"></app-listado-peliculas>
-
-<mat-paginator showFirstLastButtons [length]="cantidadTotalRegistros" [pageIndex]="paginacion.pagina" 
-[pageSize]="paginacion.recordsPorPagina" [pageSizeOptions]="[5, 10, 50]" class="mat-elevation-z8" (page)="actualizarPaginacion($event)">
-</mat-paginator>
+        <mat-form-field appearance="outline">
+            <mat-label>Genero</mat-label>
+            <mat-select [formControl]="form.controls.generoId">
+                <mat-option class="principal" [value]="0">--Seleccione un genero</mat-option>
+                @for (genero of generos; track $index) {
+                <mat-option class="exclusion" [value]="genero.id">{{genero.nombre}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <div>
+            <mat-checkbox [formControl]="form.controls.proximosEstrenos">Proximos Estrenos</mat-checkbox>
+        </div>
+        <div>
+            <mat-checkbox [formControl]="form.controls.enCines">En Cines</mat-checkbox>
+        </div>
+        <div>
+            <button mat-flat-button color="warn" (click)="limpiar()">Limpiar</button>
+        </div>
+    </form>
+</div>
+<div class="container-movies">
+    <app-listado-peliculas [peliculas]="peliculas"></app-listado-peliculas>
+</div>
+    <mat-paginator showFirstLastButtons [length]="cantidadTotalRegistros" [pageIndex]="paginacion.pagina"
+        [pageSize]="paginacion.recordsPorPagina" class="mat-elevation-z8" (page)="actualizarPaginacion($event)">
+    </mat-paginator>

@@ -1,3 +1,30 @@
 button{
     margin-bottom: 1rem;
 }
+*{
+    color: white;
+}
+.exclusion {
+    color: black;
+}
+mat-select .principal{
+    color: white;
+}
+.mat-accent.mat-mdc-checkbox {
+    --mat-checkbox-label-text-color: white;
+}
+mat-paginator{
+font-size: 15px;
+border-radius: 5px;
+background-color: white;
+margin-top: 2rem;
+color: black;
+
+}
+.container-movies{
+    padding: 50px;
+    background-color: rgba(17, 18, 19, 0.514);
+}
+.contenedor {
+    margin: 0 100px;
+}

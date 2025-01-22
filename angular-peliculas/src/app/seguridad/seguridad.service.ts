@@ -25,7 +25,7 @@ export class SeguridadService {
     paginacion: PaginacionDTO
   ): Observable<HttpResponse<UsuarioDTO[]>> {
     let queryParams = construirQueryParams(paginacion);
-    return this.http.get<UsuarioDTO[]>(`${this.urlBase}/ListadoUsuarios`, {
+    return this.http.get<UsuarioDTO[]>(`${this.urlBase}/obtenerUsuarios`, {
       params: queryParams,
       observe: 'response',
     });

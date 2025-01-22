@@ -18,3 +18,6 @@ export interface ActoreAutoCompleteDTO {
   personaje: string;
   foto: string;
 }
+export interface LandingPageActoresDTO {
+  enTendencia: ActorDTO[];
+}

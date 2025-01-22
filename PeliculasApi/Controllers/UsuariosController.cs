@@ -46,6 +46,32 @@ namespace PeliculasApi.Controllers
             return usuarios;
         }
 
+        [HttpGet("obtenerUsuarios")]
+        public async Task<IActionResult> ObtenerUsuariosClaim([FromQuery] PaginacionResponseDTO paginacion)
+        {
+            var usuarios = userManager.Users.Skip((paginacion.Pagina - 1) * paginacion.RecordsPorPagina)
+                .Take(paginacion.RecordsPorPagina)
+                .ToList();
+
+            var usuariosDto = new List<UsuarioResponseDTO>();
+
+            foreach(var usuario in usuarios)
+            {
+                var claims = await userManager.GetClaimsAsync(usuario);
+                var esAdmin = claims.Any(c => c.Type == "esadmin" && c.Value == "true");
+
+                usuariosDto.Add(new UsuarioResponseDTO
+                {
+                    Email = usuario.Email,
+                    EsAdmin = esAdmin
+                });
+            }
+            var totalRegistros = userManager.Users.Count();
+
+            Response.Headers.Add("cantidad-total-registros", totalRegistros.ToString());
+            return Ok(usuariosDto);
+        }
+
         [HttpPost("registrar")]
         [AllowAnonymous]
         public async Task<ActionResult<RespuestaAutenticacionResponseDTO>> Registrar(CredencialesUsuarioResponseDTO credencialesUsuarioResponseDTO)

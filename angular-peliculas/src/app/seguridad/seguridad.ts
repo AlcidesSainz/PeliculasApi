@@ -7,5 +7,6 @@ export interface RespuestaAutenticacionDTO{
     expiracion: Date;
 }
 export interface UsuarioDTO {
-    email: string
+  email: string;
+  esAdmin: boolean;
 }

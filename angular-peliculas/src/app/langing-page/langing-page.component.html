@@ -1,3 +1,5 @@
+<div class="contenedor">
+
 <app-carrusel style="margin: 10rem;"></app-carrusel>
 
 <h2>En cines</h2>
@@ -8,3 +10,7 @@
 
 <h2>Todas las peliculas</h2>
 <app-listado-peliculas [peliculas]="peliculas" (borrado)="peliculasBorrado()"></app-listado-peliculas>
+
+<h2>Actores</h2>
+<app-listado-actores [actores]="actoresTendencia"></app-listado-actores>
+</div>

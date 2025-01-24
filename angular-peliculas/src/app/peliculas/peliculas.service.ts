@@ -63,6 +63,9 @@ export class PeliculasService {
     if (pelicula.poster) {
       formData.append('poster', pelicula.poster);
     }
+    if (pelicula.sinopsis) {
+      formData.append('sinopsis', pelicula.sinopsis);
+    }
     if (pelicula.trailer) {
       formData.append('trailer', pelicula.trailer);
     }

@@ -5,3 +5,36 @@ mat-chip-listbox {
 app-rating{
  vertical-align: middle;   
 }
+.contenedor {
+    margin: 0 100px;
+    padding-bottom: 100px;
+    padding: 10px;
+
+}
+h2{
+    color: white;
+}
+span{
+    color: white;
+}
+h3{
+    color: white;
+}
+.mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) .mdc-evolution-chip__text-label {
+    color: white;
+}
+.contenedor-sinopsis{
+    color: white;
+}
+.contenedor-titulo{
+    display: flex;
+    flex-direction: row;
+}
+.contenedor-titulo button{
+    margin-left: 1rem;
+    width: 60px;
+}
+.separador {
+    border-top: 1px solid #ccc;
+    
+}

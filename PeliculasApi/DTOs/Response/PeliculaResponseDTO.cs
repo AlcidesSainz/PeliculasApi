@@ -10,6 +10,8 @@ namespace PeliculasApi.DTOs.Response
         public string? Trailer { get; set; }
         public DateTime FechaLanzamiento { get; set; }
         public string? Poster { get; set; }
+
+        public string? Sinopsis { get; set; }
         public double VotoPromedio { get; set; }
         public int VotoUsuario { get; set; }    
     }

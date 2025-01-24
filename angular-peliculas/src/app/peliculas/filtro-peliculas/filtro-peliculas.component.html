@@ -13,7 +13,10 @@
             <mat-select [formControl]="form.controls.generoId">
                 <mat-option class="principal" [value]="0">--Seleccione un genero</mat-option>
                 @for (genero of generos; track $index) {
+                    <span>
                 <mat-option class="exclusion" [value]="genero.id">{{genero.nombre}}</mat-option>
+
+                    </span>
                 }
             </mat-select>
         </mat-form-field>

@@ -60,7 +60,7 @@ namespace PeliculasApi.Controllers
                 .ProjectTo<PeliculaResponseDTO>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
-            var todasPeliculas = await dbContext.Peliculas.Take(top).ProjectTo<PeliculaResponseDTO>(mapper.ConfigurationProvider).ToListAsync();
+            var todasPeliculas = await dbContext.Peliculas.Take(top).ProjectTo<PeliculaResponseDTO>(mapper.ConfigurationProvider).OrderByDescending(p=>p.Id).ToListAsync();
 
             var resultado = new LandingPageResponseDTO();
             resultado.EnCines = enCines;
@@ -186,6 +186,7 @@ namespace PeliculasApi.Controllers
 
         }
         [HttpPut("{id:int}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Put(int id, [FromForm] PeliculaRequestDTO peliculaRequestDTO)
         {
             var pelicula = await dbContext.Peliculas
@@ -211,6 +212,7 @@ namespace PeliculasApi.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromForm] PeliculaRequestDTO peliculaRequestDTO)
         {
             var peliculas = mapper.Map<Pelicula>(peliculaRequestDTO);

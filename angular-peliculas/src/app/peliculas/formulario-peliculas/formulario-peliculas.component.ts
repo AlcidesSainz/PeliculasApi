@@ -69,6 +69,7 @@ export class FormularioPeliculasComponent implements OnInit {
     fechaLanzamiento: new FormControl<Date | null>(null, {
       validators: [Validators.required],
     }),
+    sinopsis:'',
     trailer: '',
     poster: new FormControl<File | string | null>(null),
   });

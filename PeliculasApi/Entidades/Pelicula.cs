@@ -14,6 +14,8 @@ namespace PeliculasApi.Entidades
         [Unicode(false)]
         public string? Poster { get; set; }
 
+        public string? Sinopsis { get; set; }
+
         public List<PeliculaActor> PeliculaActor { get; set; } = new List<PeliculaActor>();
         public List<PeliculaCine> PeliculaCine { get; set; } = new List<PeliculaCine>();
         public List<PeliculaGenero> PeliculaGenero { get; set; } = new List<PeliculaGenero>();

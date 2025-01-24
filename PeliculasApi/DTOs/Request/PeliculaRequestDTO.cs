@@ -14,6 +14,8 @@ namespace PeliculasApi.DTOs.Request
         public DateTime FechaLanzamiento { get; set; }
         public IFormFile? Poster { get; set; }
 
+        public string? Sinopsis { get; set; }
+
         [ModelBinder(BinderType = typeof(TypeBinder))]
         public List<int>? CinesIds { get; set; }
 

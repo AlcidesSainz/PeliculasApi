@@ -38,3 +38,26 @@ h3{
     border-top: 1px solid #ccc;
     
 }
+.glass-effect {
+    width: 300px;
+    height: 415px;
+    border-radius: 5px;
+    backdrop-filter: blur(5px);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 15px rgba(255, 255, 255, 0.1);
+}
+.span-actores{
+    cursor: pointer;
+}
+.span-actores:hover{
+    color: #ff4081;
+    text-decoration: underline;
+}
+.span-directores {
+    cursor: pointer;
+}
+
+.span-directores:hover {
+    color: #ff4081;
+    text-decoration: underline;
+}

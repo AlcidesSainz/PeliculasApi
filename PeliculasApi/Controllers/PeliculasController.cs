@@ -73,7 +73,10 @@ namespace PeliculasApi.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<PeliculasDetallesResponseDTO>> Get(int id)
         {
-            var pelicula = await dbContext.Peliculas.ProjectTo<PeliculasDetallesResponseDTO>(mapper.ConfigurationProvider)
+            var pelicula = await dbContext.Peliculas
+                 .Include(p => p.PeliculaDirector)      // Incluye la relación principal
+                 .ThenInclude(pd => pd.Actor)           // Asegúrate de cargar los actores
+                 .ProjectTo<PeliculasDetallesResponseDTO>(mapper.ConfigurationProvider)
                  .FirstOrDefaultAsync(p => p.Id == id);
 
             if (pelicula == null)
@@ -154,6 +157,7 @@ namespace PeliculasApi.Controllers
             };
         }
         [HttpGet("PutGet/{id:int}")]
+        [AllowAnonymous]
         public async Task<ActionResult<PeliculasPutGetDTO>> PutGet(int id)
         {
             var peliculas = await dbContext.Peliculas.ProjectTo<PeliculasDetallesResponseDTO>(mapper.ConfigurationProvider).FirstOrDefaultAsync(x => x.Id == id);
@@ -161,6 +165,7 @@ namespace PeliculasApi.Controllers
             {
                 return NotFound();
             }
+
 
             var generosSeleccionados = peliculas.Generos.Select(g => g.Id).ToList();
             var generosNoSeleccionados = await dbContext.Generos
@@ -182,6 +187,7 @@ namespace PeliculasApi.Controllers
             respuesta.CinesNoSeleccionados = cinesNoSeleccionados;
             respuesta.CinesSeleccionados = peliculas.Cines;
             respuesta.Actores = peliculas.Actores;
+            respuesta.Directores = peliculas.Directores;
             return respuesta;
 
         }
@@ -193,6 +199,7 @@ namespace PeliculasApi.Controllers
                                             .Include(c => c.PeliculaActor)
                                             .Include(c => c.PeliculaGenero)
                                             .Include(c => c.PeliculaCine)
+                                            .Include(c=>c.PeliculaDirector)
                                             .FirstOrDefaultAsync(c => c.Id == id);
             if (pelicula is null)
             {

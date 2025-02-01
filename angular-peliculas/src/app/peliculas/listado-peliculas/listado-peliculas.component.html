@@ -3,7 +3,7 @@
         <div class="peliculas-contenedor">
             @for (pelicula of peliculas; track $index)
             {
-            <div class="pelicula-contenedor">
+            <div class="pelicula-contenedor ">
                 <a [routerLink]="['/peliculas',pelicula.id]">
                     @if (pelicula.poster)
                     {
@@ -14,7 +14,7 @@
                     }
                 </a>
                 <p>
-                    <a [routerLink]="['/peliculas',pelicula.id]">{{pelicula.titulo}}</a>
+                    <a  [routerLink]="['/peliculas',pelicula.id]">{{pelicula.titulo}}</a>
                 </p>
                 <div>
                     <app-autorizado rol="admin">

@@ -1,0 +1,39 @@
+<form>
+    <mat-form-field>
+        <input type="text" placeholder="Seleccione los directores" matInput [formControl]="control"
+            [matAutocomplete]="auto" />
+        <mat-autocomplete #auto (optionSelected)="directorSeleccionado($event)">
+            @for (director of directores; track $index) {
+            <mat-option [value]="director">
+                <img [src]="director.foto" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;" />
+                {{ director.nombre }}
+            </mat-option>
+            }
+        </mat-autocomplete>
+    </mat-form-field>
+</form>
+
+@if (directoresSeleccionados.length > 0) {
+<table mat-table [dataSource]="directoresSeleccionados" class="mat-elevation-z8" cdkDropList
+    [cdkDropListData]="directoresSeleccionados" (cdkDropListDropped)="finalizarArrastre($event)">
+    <ng-container matColumnDef="imagen">
+        <td mat-cell *matCellDef="let director">
+            <img style="width: 50px;" [src]="director.foto" />
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nombre">
+        <td mat-cell *matCellDef="let director">
+            {{ director.nombre }}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="acciones">
+        <td mat-cell *matCellDef="let director">
+            <mat-icon mat-list-icon (click)="eliminar(director)"> close </mat-icon>
+        </td>
+    </ng-container>
+
+    <tr mat-row *matRowDef="let row; columns: columnasMostrar" cdkDrag [cdkDragData]="row"></tr>
+</table>
+}

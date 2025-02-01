@@ -36,7 +36,7 @@ import { debounceTime } from 'rxjs';
 export class FiltroPeliculasComponent implements OnInit {
   generosService = inject(GeneroService);
   peliculasService = inject(PeliculasService);
-  paginacion: PaginacionDTO = { pagina: 1, recordsPorPagina: 10 };
+  paginacion: PaginacionDTO = { pagina: 1, recordsPorPagina: 12 };
   cantidadTotalRegistros!: number;
   ngOnInit(): void {
     this.generosService.obtenerTodoslosGeneros().subscribe((generos) => {

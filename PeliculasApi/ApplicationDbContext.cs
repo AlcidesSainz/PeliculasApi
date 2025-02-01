@@ -43,8 +43,9 @@ namespace PeliculasApi
 
             //Configurando llaves para las relaciones de entidades
             modelBuilder.Entity<PeliculaActor>().HasKey(e => new { e.ActorId, e.PeliculaId });
-            modelBuilder.Entity<PeliculaCine>().HasKey(e => new {  e.CineId, e.PeliculaId });
-            modelBuilder.Entity<PeliculaGenero>().HasKey(e => new {  e.GeneroId, e.PeliculaId, });
+            modelBuilder.Entity<PeliculaCine>().HasKey(e => new { e.CineId, e.PeliculaId });
+            modelBuilder.Entity<PeliculaGenero>().HasKey(e => new { e.GeneroId, e.PeliculaId});
+            modelBuilder.Entity<PeliculaDirector>().HasKey(e => new { e.ActorId, e.PeliculaId });
         }
         public DbSet<Genero> Generos { get; set; }
         public DbSet<Actor> Actores { get; set; }
@@ -54,5 +55,7 @@ namespace PeliculasApi
         public DbSet<PeliculaCine> PeliculaCine { get; set; }
         public DbSet<PeliculaGenero> PeliculaGenero { get; set; }
         public DbSet<Rating> RatingsPeliculas { get; set; }
+        public DbSet<RatingActor> RatingActores { get; set; }
+        public DbSet<PeliculaDirector> PeliculaDirector { get; set; }
     }
 }

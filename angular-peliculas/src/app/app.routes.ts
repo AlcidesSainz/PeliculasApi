@@ -17,6 +17,8 @@ import { esAdminGuard } from './compartidos/guards/es-admin.guard';
 import { LoginComponent } from './seguridad/login/login.component';
 import { RegistroComponent } from './seguridad/registro/registro.component';
 import { IndiceUsuariosComponent } from './seguridad/indice-usuarios/indice-usuarios.component';
+import { DetalleActorComponent } from './actores/detalle-actor/detalle-actor.component';
+import { FiltroActoresComponent } from './actores/filtro-actores/filtro-actores.component';
 
 export const routes: Routes = [
   { path: '', component: LangingPageComponent },
@@ -45,6 +47,13 @@ export const routes: Routes = [
     component: CrearActorComponent,
     canActivate: [esAdminGuard],
   },
+  { path: 'actores/filtrar', component: FiltroActoresComponent },
+
+  {
+    path: 'actores/:id',
+    component: DetalleActorComponent,
+  },
+
   {
     path: 'actores/editar/:id',
     component: EditarActorComponent,

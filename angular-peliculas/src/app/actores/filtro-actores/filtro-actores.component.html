@@ -1,0 +1,21 @@
+<div class="contenedor">
+    <h2>Buscar Celebridades</h2>
+
+    <form [formGroup]="form">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input style="color: white;" matInput [formControl]="form.controls.nombre" />
+        </mat-form-field>
+
+        <div>
+            <button class="mt-2" mat-flat-button color="warn" (click)="limpiar()">Limpiar</button>
+        </div>
+    </form>
+</div>
+<div class="container-movies">
+    <app-listado-actores-filtro [actores]="actores"></app-listado-actores-filtro>
+</div>
+<mat-paginator showFirstLastButtons [length]="cantidadTotalRegistros" [pageIndex]="paginacion.pagina"
+    [pageSize]="paginacion.recordsPorPagina" class="mat-elevation-z8" (page)="actualizarPaginacion($event)">
+</mat-paginator>

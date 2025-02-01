@@ -42,7 +42,7 @@ export class IndiceEntidadComponent<TDTO, TCreacionDTO> {
     TCreacionDTO
   >;
 
-  paginacion: PaginacionDTO = { pagina: 1, recordsPorPagina: 5 };
+  paginacion: PaginacionDTO = { pagina: 1, recordsPorPagina: 50 };
 
   entidades!: TDTO[];
 

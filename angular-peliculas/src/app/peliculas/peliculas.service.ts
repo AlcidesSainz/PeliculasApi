@@ -72,6 +72,7 @@ export class PeliculasService {
     formData.append('generosIds', JSON.stringify(pelicula.generosIds));
     formData.append('cinesIds', JSON.stringify(pelicula.cinesIds));
     formData.append('actores', JSON.stringify(pelicula.actores));
+    formData.append('directores', JSON.stringify(pelicula.directores));
 
     return formData;
   }

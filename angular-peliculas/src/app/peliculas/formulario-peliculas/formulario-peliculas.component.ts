@@ -23,7 +23,8 @@ import moment from 'moment';
 import { SelectorMultipleDTO } from '../../compartidos/componentes/selector-multiple/SelectorMultipleModelo';
 import { SelectorMultipleComponent } from '../../compartidos/componentes/selector-multiple/selector-multiple.component';
 import { AutocompleteActoresComponent } from '../../actores/autocomplete-actores/autocomplete-actores.component';
-import { ActoreAutoCompleteDTO } from '../../actores/actores';
+import { ActoreAutoCompleteDTO, DirectoresAutoCompleteDTO } from '../../actores/actores';
+import { AutocompleteDirectoresComponent } from "../../actores/autocomplete-directores/autocomplete-directores.component";
 
 @Component({
   selector: 'app-formulario-peliculas',
@@ -38,7 +39,8 @@ import { ActoreAutoCompleteDTO } from '../../actores/actores';
     InputImgComponent,
     SelectorMultipleComponent,
     AutocompleteActoresComponent,
-  ],
+    AutocompleteDirectoresComponent
+],
   templateUrl: './formulario-peliculas.component.html',
   styleUrl: './formulario-peliculas.component.css',
 })
@@ -58,6 +60,8 @@ export class FormularioPeliculasComponent implements OnInit {
   cinesNoSeleccionados!: SelectorMultipleDTO[];
   @Input({ required: true })
   actoresSeleccionados!: ActoreAutoCompleteDTO[];
+  @Input({ required: true })
+  directoresSeleccionados!: DirectoresAutoCompleteDTO[];
   @Input()
   modelo?: PeliculaDTO;
   @Output()
@@ -81,6 +85,7 @@ export class FormularioPeliculasComponent implements OnInit {
     if (!this.form.valid) {
       return;
     }
+    console.log(this.form.value);
     const pelicula = this.form.value as PeliculaCreacionDTO;
     pelicula.fechaLanzamiento = moment(pelicula.fechaLanzamiento).toDate();
 
@@ -91,6 +96,10 @@ export class FormularioPeliculasComponent implements OnInit {
     pelicula.cinesIds = cinesIds;
 
     pelicula.actores = this.actoresSeleccionados;
+    pelicula.directores = this.directoresSeleccionados.map((director) => ({
+    ActorId: director.id, // Asumiendo que director.llave es el ID del actor/director
+    PeliculaId:  0 // Si es creación, id será 0 (ajusta según tu lógica)
+  }));
     this.posteoFormulario.emit(pelicula);
   }
   obtenerErrorCampoTitulo(): string {

@@ -1,0 +1,34 @@
+<app-listado-generico [listado]="actores">
+    <ng-container contenido>
+        <div class="peliculas-contenedor">
+            @for (actor of actores; track $index)
+            {
+            <div class="pelicula-contenedor ">
+                <a [routerLink]="['/actores',actor.id]">
+                    @if (actor.foto)
+                    {
+                    <img [src]="actor.foto" width="200" height="300">
+                    }@else
+                    {
+                    <img src="default.jpg" width="200" height="300">
+                    }
+                </a>
+                <p>
+                    <a [routerLink]="['/actores',actor.id]">{{actor.nombre}}</a>
+                </p>
+                <div>
+                    <app-autorizado rol="admin">
+                        <ng-container autorizado>
+                            <a mat-flat-button [routerLink]="['/actores/editar',actor.id]">Editar</a>
+                            <button mat-flat-button type="button"
+                                [swal]="{title:'Confirmacion', text:'Deseas borrar el registro?',showCancelButton:true}"
+                                (confirm)="borrar(actor.id)" color="warn">Borrar</button>
+                        </ng-container>
+                    </app-autorizado>
+
+                </div>
+            </div>
+            }
+        </div>
+    </ng-container>
+</app-listado-generico>

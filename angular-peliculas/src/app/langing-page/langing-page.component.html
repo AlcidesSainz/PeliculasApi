@@ -1,16 +1,32 @@
 <div class="contenedor">
 
-<app-carrusel style="margin: 10rem;"></app-carrusel>
+    <app-carrusel style="margin: 10rem;"></app-carrusel>
 
-<h2>En cines</h2>
-<app-listado-peliculas [peliculas]="peliculasEnCines" (borrado)="peliculasBorrado()"></app-listado-peliculas>
+    <h2>En cines</h2>
+    <app-listado-peliculas [peliculas]="peliculasEnCines" (borrado)="peliculasBorrado()"></app-listado-peliculas>
 
-<h2>Proximos estrenos</h2>
-<app-listado-peliculas [peliculas]="peliculasProximosEstrenos" (borrado)="peliculasBorrado()"></app-listado-peliculas>
+    <h2>Proximos estrenos</h2>
+    <app-listado-peliculas [peliculas]="peliculasProximosEstrenos"
+        (borrado)="peliculasBorrado()"></app-listado-peliculas>
 
-<h2>Todas las peliculas</h2>
-<app-listado-peliculas [peliculas]="peliculas" (borrado)="peliculasBorrado()"></app-listado-peliculas>
-
-<h2>Actores</h2>
-<app-listado-actores [actores]="actoresTendencia"></app-listado-actores>
+    <div class="row">
+        <div class="col-6">
+            <h2>Peliculas</h2>
+        </div>
+        <div class="col-6 text-end">
+            <span class="span-ver" style="margin-right: 7%;" routerLink="peliculas/filtrar">Ver todas las
+                peliculas</span>
+        </div>
+    </div>
+    <app-listado-peliculas [peliculas]="peliculas" (borrado)="peliculasBorrado()"></app-listado-peliculas>
+    <div class="row">
+        <div class="col-6">
+            <h2>Celebridades</h2>
+        </div>
+        <div class="col-6 text-end">
+            <span class="span-ver" style="margin-right: 7%;" routerLink="actores/filtrar">Ver todas las
+                celebridades</span>
+        </div>
+    </div>
+    <app-listado-actores [actores]="actoresTendencia"></app-listado-actores>
 </div>

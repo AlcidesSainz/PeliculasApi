@@ -23,6 +23,7 @@ export class CrearPeliculasComponent {
   cinesSeleccionados: SelectorMultipleDTO[] = [];
   cinesNoSeleccionados: SelectorMultipleDTO[] = [];
   actoresSeleccionados: ActoreAutoCompleteDTO[] = [];
+  directoresSeleccionados: ActoreAutoCompleteDTO[] = [];
 
   peliculaService = inject(PeliculasService);
   router = inject(Router);

@@ -32,7 +32,7 @@
     </form>
 </div>
 <div class="container-movies">
-    <app-listado-peliculas [peliculas]="peliculas"></app-listado-peliculas>
+    <app-listado-peliculas  [peliculas]="peliculas"></app-listado-peliculas>
 </div>
     <mat-paginator showFirstLastButtons [length]="cantidadTotalRegistros" [pageIndex]="paginacion.pagina"
         [pageSize]="paginacion.recordsPorPagina" class="mat-elevation-z8" (page)="actualizarPaginacion($event)">

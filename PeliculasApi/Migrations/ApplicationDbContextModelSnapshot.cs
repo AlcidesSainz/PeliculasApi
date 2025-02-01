@@ -229,6 +229,10 @@ namespace PeliculasApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Biografia")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime2");
 
@@ -457,6 +461,21 @@ namespace PeliculasApi.Migrations
                     b.ToTable("PeliculaCine");
                 });
 
+            modelBuilder.Entity("PeliculasApi.Entidades.PeliculaDirector", b =>
+                {
+                    b.Property<int>("ActorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PeliculaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ActorId", "PeliculaId");
+
+                    b.HasIndex("PeliculaId");
+
+                    b.ToTable("PeliculaDirector");
+                });
+
             modelBuilder.Entity("PeliculasApi.Entidades.PeliculaGenero", b =>
                 {
                     b.Property<int>("GeneroId")
@@ -497,6 +516,33 @@ namespace PeliculasApi.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("RatingsPeliculas");
+                });
+
+            modelBuilder.Entity("PeliculasApi.Entidades.RatingActor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ActorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Puntuacion")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsuarioId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActorId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("RatingActores");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -588,6 +634,25 @@ namespace PeliculasApi.Migrations
                     b.Navigation("Pelicula");
                 });
 
+            modelBuilder.Entity("PeliculasApi.Entidades.PeliculaDirector", b =>
+                {
+                    b.HasOne("PeliculasApi.Entidades.Actor", "Actor")
+                        .WithMany()
+                        .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PeliculasApi.Entidades.Pelicula", "Pelicula")
+                        .WithMany("PeliculaDirector")
+                        .HasForeignKey("PeliculaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Actor");
+
+                    b.Navigation("Pelicula");
+                });
+
             modelBuilder.Entity("PeliculasApi.Entidades.PeliculaGenero", b =>
                 {
                     b.HasOne("PeliculasApi.Entidades.Genero", "Genero")
@@ -626,11 +691,32 @@ namespace PeliculasApi.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("PeliculasApi.Entidades.RatingActor", b =>
+                {
+                    b.HasOne("PeliculasApi.Entidades.Actor", "Actor")
+                        .WithMany()
+                        .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Actor");
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("PeliculasApi.Entidades.Pelicula", b =>
                 {
                     b.Navigation("PeliculaActor");
 
                     b.Navigation("PeliculaCine");
+
+                    b.Navigation("PeliculaDirector");
 
                     b.Navigation("PeliculaGenero");
                 });

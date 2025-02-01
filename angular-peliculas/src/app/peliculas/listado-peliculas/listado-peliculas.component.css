@@ -1,8 +1,8 @@
 .peliculas-contenedor{
     display: flex;
-    flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
+    flex-wrap: wrap;
 }
 .pelicula-contenedor{
     margin-right: 2%;
@@ -20,4 +20,8 @@ button{
 a {
     text-decoration: none;
     color: white;
+}
+.pelicula:hover {
+    color: #ff4081;
+    text-decoration: underline;
 }

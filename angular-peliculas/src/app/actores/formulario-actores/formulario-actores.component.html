@@ -4,6 +4,11 @@
         <input matInput [formControl] = "form.controls.nombre">
         <mat-error>{{obtenerErrorCampoNombre()}}</mat-error>
     </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Biografia</mat-label>
+            <input matInput [formControl]="form.controls.biografia">
+            <!-- <mat-error>{{obtenerErrorCampoNombre()}}</mat-error> -->
+        </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>Fecha de nacimiento</mat-label>
         <input matInput [matDatepicker]="picker" [formControl]="form.controls.fechaNacimiento">

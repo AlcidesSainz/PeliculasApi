@@ -1,18 +1,29 @@
-<h2>{{titulo}}</h2>
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="card p-4 shadow" style="width: 350px;">
+        <h2 class="text-center mb-4">{{titulo}}</h2>
 
-<app-mostrar-errores [errores]="errores"></app-mostrar-errores>
-<form (submit)="guardarCambios()" [formGroup]="form">
-    <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput [formControl]="form.controls.email" />
-        <mat-error>{{obtenerErrorEmail()}}</mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" [formControl]="form.controls.password" />
-        <mat-error>{{obtenerErrorPassword()}}</mat-error>
-    </mat-form-field>
-    <div class="contenedor-botones">
-        <button mat-flat-button type="submit" [disabled]="form.invalid">Guardar Cambios</button>
+        <app-mostrar-errores [errores]="errores"></app-mostrar-errores>
+
+        <form (submit)="guardarCambios()" [formGroup]="form">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" class="form-control" [formControl]="form.controls.email">
+                <div class="text-danger" *ngIf="obtenerErrorEmail()">
+                    {{obtenerErrorEmail()}}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" class="form-control" [formControl]="form.controls.password">
+                <div class="text-danger" *ngIf="obtenerErrorPassword()">
+                    {{obtenerErrorPassword()}}
+                </div>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Guardar Cambios</button>
+            </div>
+        </form>
     </div>
-</form>
+</div>

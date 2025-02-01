@@ -61,6 +61,7 @@ export class FormularioActoresComponent implements OnInit {
         validators: [Validators.required, primeraLetraMayuscula()],
       },
     ],
+    biografia: '',
     fechaNacimiento: new FormControl<Date | null>(null, {
       validators: [Validators.required, fechaNoPuedeSerFutura()],
     }),

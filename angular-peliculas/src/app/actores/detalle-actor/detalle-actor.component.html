@@ -1,0 +1,114 @@
+<div class="contenedor">
+    @if (actor) {
+    <div>
+        <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    <div class="contenedor-titulo">
+                        <div class="col-8">
+                            <h2>{{actor.nombre}} ({{actor.fechaNacimiento.getFullYear()}})</h2>
+                        </div>
+                        <div class="col-4">
+                            <app-autorizado rol="admin">
+                                <ng-container autorizado>
+                                    <button mat-flat-button [routerLink]="['/actores/editar',actor.id]">Editar</button>
+                                    <button mat-flat-button type="button"
+                                        [swal]="{title:'Confirmacion', text:'Deseas borrar el registro?',showCancelButton:true}"
+                                        (confirm)="borrar(actor.id)" color="warn">Borrar</button>
+                                </ng-container>
+                            </app-autorizado>
+                        </div>
+                    </div>
+                </div>
+
+                <mat-chip-listbox>
+                    <!-- @for (genero of pelicula.generos; track $index) { -->
+                    <mat-chip>
+                        <span>Actor</span>
+                    </mat-chip>
+                    <!-- } -->
+                </mat-chip-listbox>
+            </div>
+            <div class="col-6  d-flex flex-row row">
+                <div class="d-flex flex-column col-3">
+                    <span>Puntuación</span>
+                    <span><span class="fs-4"> <mat-icon class="text-warning fs-3">star</mat-icon>
+                            {{actor.votoPromedio.toFixed(1)}}</span> /10</span>
+                </div>
+                <div class="col-9">
+                    <span>
+                        Tu puntuación
+                    </span>
+                    <span>
+                        <app-rating [maximoRating]="10" (votado)="puntuar($event)"
+                            [ratingSeleccionado]="actor.votoUsuario"></app-rating>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <span>
+                    <img [src]="actor.foto" class="glass-effect" style="width: 300px; height: 415px; ">
+                </span>
+            </div>
+            <div class="col-8 mt-4 text-justify">
+                <p style="text-align: justify; color: white;">
+                    {{actor.biografia}}
+                </p>
+            </div>
+        </div>
+        <div class="contenedor-datos row mt-4">
+            <div class="contenedor-sinopsis col-7">
+                <div class="separador"></div>
+
+                <div class="mt-2 row" style="display: flex; flex-direction: row;">
+                    <span class="col-3">Fecha Nacimiento</span>
+                    <p class="col-9">{{actor.fechaNacimiento | fechaEspanol}}</p>
+                </div>
+                @if(actor.primeraPelicula){
+                <div class="separador"></div>
+                <div class="mt-2 row" style="display: flex; flex-direction: row;">
+                    <span class="col-3" >Primera Pelicula</span>
+                    <p class="col-9 span-peliculas-anteriores" [routerLink]="['/peliculas', actor.primeraPeliculaId]">{{actor.primeraPelicula}}</p>
+                </div>
+                }
+                @if (actor.ultimaPelicula) {
+                <div class="separador"></div>
+                <div class="mt-2 row" style="display: flex; flex-direction: row;">
+                    <span class="col-3">Ultima Pelicula</span>
+                    <p class="col-9 span-peliculas-anteriores" [routerLink]="['/peliculas', actor.ultimaPeliculaId]">{{actor.ultimaPelicula}}</p>
+                </div>
+                }
+                <div class="separador"></div>
+
+                @if (peliculas.length>0)
+                {
+                <div class="peliculas-actuadas">
+                    <h3 class="mt-4 mb-4">Actuado en:</h3>
+                    <div class="peliculas-contenedor">
+                        @for (pelicula of peliculas; track $index)
+                        {
+                        <div class="pelicula-contenedor">
+                            <img [src]="pelicula.poster" alt="{{pelicula.titulo}}" class="poster-img"  [routerLink]="['/peliculas', pelicula.id]">
+                            <div class="info">
+                                <span class="a-peliculas" [routerLink]="['/peliculas', pelicula.id]">{{pelicula.titulo}}
+                                    ({{pelicula.fechaLanzamiento| date:'yyyy'}})</span>
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+                </div>
+
+
+                }
+            </div>
+        </div>
+
+    </div>
+    }
+    @else {
+    <app-cargando></app-cargando>
+    }
+</div>

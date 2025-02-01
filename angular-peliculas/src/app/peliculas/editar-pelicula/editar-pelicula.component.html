@@ -3,10 +3,10 @@
 
     @if (cinesNoSeleccionados) {
     <app-mostrar-errores [errores]="errores"></app-mostrar-errores>
-    <app-formulario-peliculas [modelo]="pelicula" [generosNoSeleccionados]="generosNoSeleccionados"
+    <app-formulario-editar-peliculas [modelo]="pelicula" [generosNoSeleccionados]="generosNoSeleccionados"
         [generosSeleccionados]="generosSeleccionados" [cinesNoSeleccionados]="cinesNoSeleccionados"
-        [cinesSeleccionados]="cinesSeleccionados" [actoresSeleccionados]="actoresSeleccionados"
-        (posteoFormulario)="guardarCambios($event) "></app-formulario-peliculas>
+        [cinesSeleccionados]="cinesSeleccionados" [actoresSeleccionados]="actoresSeleccionados" [directoresSeleccionados]="directoresSeleccionados"
+        (posteoFormulario)="guardarCambios($event) "></app-formulario-editar-peliculas>
     }
     @else {
     <app-cargando></app-cargando>

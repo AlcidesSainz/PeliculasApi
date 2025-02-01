@@ -19,6 +19,7 @@ namespace PeliculasApi.Entidades
         public List<PeliculaActor> PeliculaActor { get; set; } = new List<PeliculaActor>();
         public List<PeliculaCine> PeliculaCine { get; set; } = new List<PeliculaCine>();
         public List<PeliculaGenero> PeliculaGenero { get; set; } = new List<PeliculaGenero>();
+        public List<PeliculaDirector> PeliculaDirector { get; set; } = new List<PeliculaDirector>();
 
 
     }

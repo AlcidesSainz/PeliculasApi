@@ -7,8 +7,13 @@
         </span>
         <div>
             <a mat-button routerLink="peliculas/filtrar">
-                <mat-icon>search</mat-icon>
+                <mat-icon>movie</mat-icon>
                 Buscar Peliculas</a>
+        </div>
+                <div>
+            <a mat-button routerLink="actores/filtrar">
+                <mat-icon>star</mat-icon>
+                Buscar Celebridades</a>
         </div>
         <app-autorizado rol="admin">
             <ng-container autorizado>
@@ -16,7 +21,7 @@
                     <a mat-button routerLink="generos">Géneros</a>
                 </div>
                 <div>
-                    <a mat-button routerLink="actores">Actores</a>
+                    <a mat-button routerLink="actores">Celebridades</a>
                 </div>
                 <div>
                     <a mat-button routerLink="cines">Cines</a>

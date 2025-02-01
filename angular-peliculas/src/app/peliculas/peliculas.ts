@@ -1,4 +1,4 @@
-import { ActoreAutoCompleteDTO } from '../actores/actores';
+import { ActorDTO, ActoreAutoCompleteDTO, DirectoresAutoCompleteDTO } from '../actores/actores';
 import { CineDTO } from '../cines/cines';
 import { GeneroDTO } from '../generos/generos';
 
@@ -12,9 +12,14 @@ export interface PeliculaDTO {
   generos: GeneroDTO[];
   cines: CineDTO[];
   actores: ActoreAutoCompleteDTO[];
+  directores: PeliculaDirectorResponseDTO[];
   votoUsuario: number;
   votoPromedio: number;
-
+}
+export interface PeliculaDirectorResponseDTO {
+  actorId: number;
+  peliculaId: number;
+  actor: ActorDTO; // Contiene el nombre del director (que es un actor)
 }
 export interface PeliculaCreacionDTO {
   titulo: string;
@@ -25,6 +30,7 @@ export interface PeliculaCreacionDTO {
   generosIds: number[];
   cinesIds: number[];
   actores?: ActoreAutoCompleteDTO[];
+  directores?: { ActorId: number; PeliculaId: number }[];
 }
 
 export interface PeliculasPostGetDTO {
@@ -37,11 +43,12 @@ export interface LandingPagePeliculasDTO {
   todasPeliculas: PeliculaDTO[];
 }
 
-export interface PeliculaPutGetDTO{
-  pelicula: PeliculaDTO
-  generosSeleccionados: GeneroDTO[]
-  generosNoSeleccionados: GeneroDTO[]
-  cinesSeleccionados: CineDTO[]
-  cinesNoSeleccionados: CineDTO[]
-  actores:ActoreAutoCompleteDTO[]
+export interface PeliculaPutGetDTO {
+  pelicula: PeliculaDTO;
+  generosSeleccionados: GeneroDTO[];
+  generosNoSeleccionados: GeneroDTO[];
+  cinesSeleccionados: CineDTO[];
+  cinesNoSeleccionados: CineDTO[];
+  actores: ActoreAutoCompleteDTO[];
+  directores: DirectoresAutoCompleteDTO[];
 }

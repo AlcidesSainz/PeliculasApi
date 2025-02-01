@@ -49,7 +49,7 @@
         </div>
         <div style="display: flex;">
             <span style="display: inline-block; margin-right: 1rem;">
-                <img [src]="pelicula.poster" style="width: 300px; height: 415px;">
+                <img [src]="pelicula.poster" class="glass-effect" style="width: 300px; height: 415px;">
             </span>
             @if (pelicula.trailer) {
             <div>
@@ -58,11 +58,12 @@
             </div>
             }
         </div>
+
+            <div class="mb-3 mt-3">
+                <span style="text-align: justify;">{{pelicula.sinopsis}}</span>
+            </div>
         <div class="contenedor-datos row mt-4">
             <div class="contenedor-sinopsis col-7">
-                <div class="mb-3">
-                    <span>{{pelicula.sinopsis}}</span>
-                </div>
                 <div class="separador"></div>
 
                 <div class="mt-2 row" style="display: flex; flex-direction: row;">
@@ -70,27 +71,33 @@
                     <p class="col-9">{{pelicula.fechaLanzamiento | fechaEspanol}}</p>
                 </div>
 
+
+                    @if (pelicula.directores.length > 0) {
                 <div class="separador"></div>
 
-                <div class="mt-2 row" style="display: flex; flex-direction: row;">
-                    <span class="col-3">Dirección</span>
-                    <p class="col-9">Configurar direccion</p>
-                </div>
+                    <div class="mt-2 mb-3 row">
+                        <span class="col-3">Dirección</span>
+                        <div class="col-9" style="display: flex; flex-wrap: wrap;">
+                            @for (directores of pelicula.directores; track $index) {
+                            <div style="margin-right: 4rem;">
+                                <span class="span-directores" [routerLink]="['/actores', directores.actor.id]">
+                                    {{directores.actor.nombre}}
+                                </span>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    }
 
-                <div class="separador"></div>
-                <div class="mt-2 row" style="display: flex; flex-direction: row;">
-                    <span class="col-3">Guión</span>
-                    <p class="col-9">Configurar guinostas</p>
-                </div>
 
-                <div class="separador"></div>
                 @if (pelicula.actores.length > 0) {
+                <div class="separador"></div>
                 <div class="mt-2 mb-3 row">
                     <span class="col-3">Reparto Principal</span>
                     <div class="col-9" style="display: flex; flex-wrap: wrap;">
                         @for (actor of pelicula.actores.slice(0, 3); track $index) {
                         <div style="margin-right: 4rem;">
-                            <span>
+                            <span class="span-actores"  [routerLink]="['/actores', actor.id]">
                                 {{actor.nombre}}
                             </span>
                         </div>
@@ -114,7 +121,7 @@
 
 
         @if(coordenadas.length > 0) {
-        <div>
+        <div class="mb-5 mt-4">
             <h2>Mostrandose en los cines:</h2>
             <app-mapa [coordenadasIniciales]="coordenadas" [soloLectura]="true"></app-mapa>
         </div>
@@ -123,20 +130,5 @@
     }
     @else {
     <app-cargando></app-cargando>
-    }
-    @if (pelicula.actores.length > 0) {
-    <div class="mt-2">
-        <h3>Reparto Principal</h3>
-        <div style="display: flex; flex-direction: column;">
-            @for (actor of pelicula.actores; track $index) {
-            <div style="margin-bottom: 5px;">
-                <img [src]="actor.foto" style="width: 50px; vertical-align: middle;" />
-                <span style="display: inline-block; width: 200px; margin-left: 1rem;">
-                    {{actor.nombre}}
-                </span>
-            </div>
-            }
-        </div>
-    </div>
     }
 </div>

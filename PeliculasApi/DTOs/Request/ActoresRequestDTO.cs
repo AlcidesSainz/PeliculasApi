@@ -11,6 +11,7 @@ namespace PeliculasApi.DTOs.Request
         public required string Nombre { get; set; }
 
         public DateTime FechaNacimiento { get; set; }
+        public string? Biografia { get; set; }
 
         public IFormFile? Foto { get; set; }
     }

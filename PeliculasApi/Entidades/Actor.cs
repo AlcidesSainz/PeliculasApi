@@ -12,6 +12,8 @@ namespace PeliculasApi.Entidades
         public required string Nombre { get; set; }
 
         public DateTime FechaNacimiento { get; set; }
+        [StringLength(2000)]
+        public string? Biografia { get; set; }
 
         [Unicode(false)]
         public string? Foto { get; set; }

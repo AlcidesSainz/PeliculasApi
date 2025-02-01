@@ -24,5 +24,8 @@ namespace PeliculasApi.DTOs.Request
 
         [ModelBinder(BinderType = typeof(TypeBinder))]
         public List<ActorPeliculaRequestDTO>? Actores { get; set; }
+
+        [ModelBinder(BinderType =typeof(TypeBinder))]
+        public List<PeliculaDirectorRequestDTO>? Directores { get; set; }
     }
 }

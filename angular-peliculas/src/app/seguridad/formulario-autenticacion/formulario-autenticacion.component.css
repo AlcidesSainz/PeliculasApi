@@ -1,0 +1,12 @@
+.card {
+    border-radius: 10px;
+}
+
+button {
+    transition: all 0.3s ease;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
